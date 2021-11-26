@@ -1,4 +1,5 @@
 /*Normalisation des styles des navigateurs et retrait des soulignements des liens*/
+@import url("https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=Lato:wght@400;700&family=Roboto&display=swap");
 *,
 *::before,
 *::after {
@@ -9,7 +10,8 @@
 
 body {
   font-size: 16px;
-  max-width: 1600px;
+  max-width: 1440px;
+  max-height: 1024px;
   margin: 0 auto;
   padding: 3rem 5rem;
   cursor: pointer;
@@ -31,6 +33,35 @@ li {
 
 main {
   justify-content: center;
+}
+
+header {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.logo_site {
+  width: 51px;
+  height: 46px;
+}
+
+.name_site {
+  font-family: "DM Sans";
+  font-size: 2.25rem;
+  font-weight: 700;
+  color: #d04f4f;
+}
+
+.main_search_filter {
+  width: 100%;
+  height: 4.3rem;
+  border-radius: 5px;
+  background-color: #e7e7e7;
+  border: none;
+  font-family: "Lato";
+  font-size: 1.125rem;
+  font-weight: 400;
+  padding-left: 1.375rem;
 }
 
 /*# sourceMappingURL=style.css.map */
