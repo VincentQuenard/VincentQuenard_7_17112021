@@ -15,15 +15,70 @@
     </header>
 
     <main>
+<!-- zone de saisie de recherche -->
         <section class="main_search_container">
             <div class="main_search">
-                <input class="main_search_filter" type="search" placeholder="Rechercher un ingrédient, appareil, ustensiles ou une recette" aria-label="Rechercher un ingrédient, appareil, ustensiles ou une recette">
+                <input class="main_search_filter" type="text" placeholder="Rechercher un ingrédient, appareil, ustensiles ou une recette" aria-label="Rechercher un ingrédient, appareil, ustensiles ou une recette">
                 <i class="fas fa-search"></i>
+            </div>
+        </section>
+        <section class="filters">
+            <div class="filter_selection">
+<!-- on injectera au clic les ingrédients, appareils ou unstensiles ici bouton ? -->
+            </div>
+
+ <!-- zone des 3 dropdown ingredients, appareil, ustensiles-->
+            <div class="filter_container">
+                <!-- filtre des ingredients-->
+                <div class="filter_ingredients filter_secondary">
+                    <input class="filter_ingredients_search" type="text" placeholder="Ingredients">
+                    <img class="filter_arrow" src="./images/arrow.svg" alt="fleche_dropdown">
+                    <ul class="filter_ingredients_list"></ul>
+                </div>
+
+                 <!-- filtre des appareils-->
+                 <div class="filter_set filter_secondary">
+                    <input class="filter_set_search" type="text" placeholder="Appareils">
+                    <img class="filter_arrow" src="./images/arrow.svg" alt="fleche_dropdown">
+                    <ul class="filter_set_list"></ul>
+                </div>
+
+                 <!-- filtre des ustensiles-->
+                 <div class="filter_utensil filter_secondary">
+                    <input class="filter_utensil_search" type="text" placeholder="Ustensiles">
+                    <img class="filter_arrow" src="./images/arrow.svg" alt="fleche_dropdown">
+                    <ul class="filter_utensil_list"></ul>
+                </div>
+            </div>
+        </section>
+
+        <!--Partie des recettes de cuisine-->
+        <section class="cards">
+            <div class="card">
+                <div class="card_header">
+                    injecter le carré gris par extraction sur figma
+                </div>
+                <div class="card_title">
+                    <h2>Limonade de coco</h2>
+                </div>
+                <div class="card_duration">
+                    image cadran à prendre sur figma et temps
+                </div>
+                <div class="card_ingredient">
+                    <ul class="card_ingredient_list">
+
+                    </ul>
+                </div>
+                <div class="card_description">
+                    <p class="card_description_text">
+                        Mettre les glaçons à votre goût dans le blender, ajouter le lait, la crème de coco, le jus de 2 citrons et le sucre. Mixer jusqu'à avoir la consistence désirée
+                    </p>
+                </div>
+               
             </div>
 
 
         </section>
-        
     </main>
    <script type="module" src="./js/index.js"></script>
 </body>

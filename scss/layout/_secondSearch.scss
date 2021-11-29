@@ -1,0 +1,41 @@
+.filter_container {
+  display: flex;
+  border: none;
+}
+
+.filter_secondary {
+  border-radius: 5px;
+  margin-right: 2rem;
+
+  & input {
+    border: none;
+    border-radius: 5px;
+    font-size: 1.125rem;
+
+    width: 10.625rem;
+    height: 4.3125rem;
+  }
+}
+
+.filter_ingredients {
+  background-color: $couleur_background_ingredient;
+
+  & input {
+    background-color: $couleur_background_ingredient;
+  }
+}
+
+.filter_set {
+  background-color: $couleur_background_set;
+
+  & input {
+    background-color: $couleur_background_set;
+  }
+}
+.filter_utensil {
+  background-color: $couleur_background_utensil;
+
+  & input {
+    background-color: $couleur_background_utensil;
+  }
+}
