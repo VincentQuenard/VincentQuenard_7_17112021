@@ -70,21 +70,35 @@ header {
   right: 1%;
 }
 
+.filters {
+  margin-bottom: 1rem;
+}
+
 .filter_container {
   display: flex;
   border: none;
 }
 
+h2 {
+  position: absolute;
+  color: white;
+  font-size: 1.125rem;
+  font-family: "Lato";
+}
+
 .filter_secondary {
   border-radius: 5px;
   margin-right: 2rem;
+  position: relative;
+  min-width: 10.625rem;
+  height: 4.3125rem;
 }
 .filter_secondary input {
   border: none;
   border-radius: 5px;
   font-size: 1.125rem;
-  width: 10.625rem;
-  height: 4.3125rem;
+  color: white;
+  display: none;
 }
 
 .filter_ingredients {
@@ -106,6 +120,15 @@ header {
 }
 .filter_utensil input {
   background-color: #ed6454;
+}
+
+.card {
+  width: 380px;
+  height: 364px;
+}
+
+.card_content {
+  background-color: #e7e7e7;
 }
 
 /*# sourceMappingURL=style.css.map */
