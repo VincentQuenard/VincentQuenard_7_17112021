@@ -1,6 +1,14 @@
+.cards {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  margin-top: 4rem;
+}
+
 .card {
   width: 380px;
   height: 364px;
+  margin-bottom: 3rem;
 }
 
 .card_header {
