@@ -1,0 +1,31 @@
+.tags_selection {
+  display: flex;
+
+  & .tag {
+    display: flex;
+    margin: 0 1rem 1rem 0;
+    align-items: center;
+    height: 2rem;
+    color: $couleur_police_blanche;
+    border-radius: 5px;
+    padding: 0 1rem;
+    font-size: 0.875rem;
+    font-weight: 700;
+  }
+  & .fa-times-circle {
+    font-weight: 400;
+    margin-left: 0.7rem;
+  }
+
+  & .ingredients {
+    background-color: $couleur_background_ingredient;
+  }
+
+  & .set {
+    background-color: $couleur_background_set;
+  }
+
+  & .ustensil {
+    background-color: $couleur_background_utensil;
+  }
+}

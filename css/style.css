@@ -70,6 +70,34 @@ header {
   right: 1%;
 }
 
+.tags_selection {
+  display: flex;
+}
+.tags_selection .tag {
+  display: flex;
+  margin: 0 1rem 1rem 0;
+  align-items: center;
+  height: 2rem;
+  color: #ffffff;
+  border-radius: 5px;
+  padding: 0 1rem;
+  font-size: 0.875rem;
+  font-weight: 700;
+}
+.tags_selection .fa-times-circle {
+  font-weight: 400;
+  margin-left: 0.7rem;
+}
+.tags_selection .ingredients {
+  background-color: #3282f7;
+}
+.tags_selection .set {
+  background-color: #68d9a4;
+}
+.tags_selection .ustensil {
+  background-color: #ed6454;
+}
+
 .filters {
   margin-bottom: 1rem;
 }
@@ -126,7 +154,7 @@ h2 {
   display: flex;
   flex-wrap: wrap;
   justify-content: space-between;
-  margin-top: 4rem;
+  margin-top: 3rem;
 }
 
 .card {
