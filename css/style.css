@@ -29,6 +29,10 @@ main {
   justify-content: center;
 }
 
+.hidden {
+  display: none;
+}
+
 header {
   text-align: center;
   margin-bottom: 2rem;
@@ -91,7 +95,7 @@ header {
 .tags_selection .ingredients {
   background-color: #3282f7;
 }
-.tags_selection .set {
+.tags_selection .appliance {
   background-color: #68d9a4;
 }
 .tags_selection .ustensil {
@@ -104,20 +108,23 @@ header {
 
 .filter_container {
   display: flex;
-  border: none;
+  flex-wrap: wrap;
 }
 
 h2 {
   position: absolute;
+  left: 12%;
   color: #ffffff;
   font-size: 1.125rem;
   font-family: "Lato";
 }
 
 .filter_secondary {
+  display: flex;
+  position: relative;
+  align-items: center;
   border-radius: 5px;
   margin-right: 2rem;
-  position: relative;
   min-width: 10.625rem;
   height: 4.3125rem;
 }
@@ -126,7 +133,6 @@ h2 {
   border-radius: 5px;
   font-size: 1.125rem;
   color: white;
-  display: none;
 }
 
 .filter_ingredients {
@@ -136,10 +142,10 @@ h2 {
   background-color: #3282f7;
 }
 
-.filter_set {
+.filter_appliance {
   background-color: #68d9a4;
 }
-.filter_set input {
+.filter_appliance input {
   background-color: #68d9a4;
 }
 
@@ -148,6 +154,15 @@ h2 {
 }
 .filter_utensil input {
   background-color: #ed6454;
+}
+
+.filter_arrow {
+  position: absolute;
+  right: 8%;
+}
+
+.rotate_arrow {
+  transform: rotate(180deg);
 }
 
 .cards {
