@@ -220,7 +220,6 @@ h2 {
 
 .card_content_header {
   display: flex;
-  font-size: 1.125rem;
   align-items: center;
   justify-content: space-between;
 }
@@ -228,6 +227,7 @@ h2 {
 .card_content_body {
   display: flex;
   margin-top: 1rem;
+  height: 68%;
 }
 
 .card_ingredient {
@@ -236,6 +236,7 @@ h2 {
 
 h3 {
   font-weight: 400;
+  font-size: 1.125rem;
 }
 
 .card_description {
@@ -243,10 +244,12 @@ h3 {
   font-family: roboto;
   font-size: 0.75rem;
   font-weight: 400;
+  overflow: hidden;
 }
 
 .card_duration {
   display: flex;
+  font-size: 1.125rem;
   font-weight: 700;
 }
 
@@ -259,6 +262,10 @@ h3 {
 .card_ingredient_list {
   font-size: 0.75rem;
   font-weight: 700;
+}
+
+.card_title {
+  width: 70%;
 }
 
 /*# sourceMappingURL=style.css.map */
