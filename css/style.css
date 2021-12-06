@@ -132,7 +132,12 @@ h2 {
   border: none;
   border-radius: 5px;
   font-size: 1.125rem;
+  padding-left: 1rem;
   color: white;
+}
+.filter_secondary input::placeholder, .filter_secondary input:focus {
+  color: white;
+  outline: none;
 }
 
 .filter_ingredients {
@@ -163,6 +168,29 @@ h2 {
 
 .rotate_arrow {
   transform: rotate(180deg);
+}
+
+.lists {
+  position: absolute;
+  top: 65px;
+  color: #ffffff;
+  font-size: 1.125rem;
+  font-weight: 400;
+  width: 100%;
+  border-radius: 0 0 5px 5px;
+  padding: 0 0 1rem 1rem;
+}
+
+.filter_ingredients_list {
+  background-color: #3282f7;
+}
+
+.filter_appliance_list {
+  background-color: #68d9a4;
+}
+
+.filter_utensil_list {
+  background-color: #ed6454;
 }
 
 .cards {

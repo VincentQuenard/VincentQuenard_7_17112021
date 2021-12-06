@@ -28,7 +28,13 @@ h2 {
     border: none;
     border-radius: 5px;
     font-size: 1.125rem;
+    padding-left: 1rem;
     color: white;
+    &::placeholder,
+    &:focus {
+      color: white;
+      outline: none;
+    }
   }
 }
 
@@ -62,4 +68,26 @@ h2 {
 
 .rotate_arrow {
   transform: rotate(180deg);
+}
+
+.lists {
+  position: absolute;
+  top: 65px;
+  color: $couleur_police_blanche;
+  font-size: 1.125rem;
+  font-weight: 400;
+  width: 100%;
+  border-radius: 0 0 5px 5px;
+  padding: 0 0 1rem 1rem;
+}
+.filter_ingredients_list {
+  background-color: $couleur_background_ingredient;
+}
+
+.filter_appliance_list {
+  background-color: $couleur_background_appliance;
+}
+
+.filter_utensil_list {
+  background-color: $couleur_background_utensil;
 }
