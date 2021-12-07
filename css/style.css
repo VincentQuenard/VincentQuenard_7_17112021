@@ -204,6 +204,8 @@ h2 {
   width: 380px;
   height: 364px;
   margin-bottom: 3rem;
+  overflow: hidden;
+  border-radius: 5px;
 }
 
 .card_header {
@@ -215,7 +217,7 @@ h2 {
   background-color: #e7e7e7;
   width: 100%;
   height: 186px;
-  padding: 0.75rem 1.2rem;
+  padding: 0.75rem;
 }
 
 .card_content_header {
@@ -227,7 +229,7 @@ h2 {
 .card_content_body {
   display: flex;
   margin-top: 1rem;
-  height: 68%;
+  height: 79%;
 }
 
 .card_ingredient {
@@ -245,6 +247,7 @@ h3 {
   font-size: 0.75rem;
   font-weight: 400;
   overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .card_duration {
