@@ -102,6 +102,12 @@ header {
   background-color: #ed6454;
 }
 
+@media (max-width: 550px) {
+  .tags_selection {
+    flex-wrap: wrap;
+    justify-content: space-around;
+  }
+}
 .filters {
   margin-bottom: 1rem;
 }
@@ -179,6 +185,10 @@ h2 {
   width: 100%;
   border-radius: 0 0 5px 5px;
   padding: 0 0 1rem 1rem;
+  column-width: 170px;
+}
+.lists li {
+  padding-bottom: 1rem;
 }
 
 .filter_ingredients_list {
@@ -193,6 +203,20 @@ h2 {
   background-color: #ed6454;
 }
 
+@media (max-width: 669px) {
+  .filter_container {
+    justify-content: space-around;
+  }
+
+  .filter_secondary {
+    margin-bottom: 1.5rem;
+  }
+}
+@media (max-width: 935px) {
+  .lists {
+    z-index: 1;
+  }
+}
 .cards {
   display: flex;
   flex-wrap: wrap;
@@ -269,6 +293,12 @@ h3 {
 
 .card_title {
   width: 70%;
+}
+
+@media (max-width: 825px) {
+  .cards {
+    justify-content: center;
+  }
 }
 
 /*# sourceMappingURL=style.css.map */

@@ -29,3 +29,9 @@
     background-color: $couleur_background_utensil;
   }
 }
+@media (max-width: 550px) {
+  .tags_selection {
+    flex-wrap: wrap;
+    justify-content: space-around;
+  }
+}

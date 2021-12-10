@@ -54,7 +54,7 @@
 
           <div class="tag ustensil">
             <p class="tag_text">Cuillère en bois</p>
-            <i class="fas fa-times-circle rotatation_arrow"></i>
+            <i class="fas fa-times-circle"></i>
           </div>
         </div>
 
@@ -68,11 +68,9 @@
               type="text"
               placeholder="Rechercher un ingrédient"
             />
-            <img
-              class="filter_arrow"
-              src="./images/arrow.svg"
-              alt="fleche_dropdown"
-            />
+            <span class="filter_arrow arrow_ingredient">
+              <img src="./images/arrow.svg" alt="fleche_dropdown" />
+            </span>
 
             <ul class="filter_ingredients_list lists hidden">
               <!--ajouter tabindex="0" sur les li-->
@@ -81,50 +79,30 @@
 
           <!-- filtre des appareils-->
           <div class="filter_appliance filter_secondary">
-            <h2>Appareils</h2>
+            <h2 class="title_appliance">Appareils</h2>
             <input
               class="filter_appliance_search hidden"
               type="text"
               placeholder="Rechercher un appareil"
             />
-            <img
-              class="filter_arrow"
-              src="./images/arrow.svg"
-              alt="fleche_dropdown"
-            />
-            <ul class="filter_appliance_list lists hidden">
-              <li>Cuiseur de riz</li>
-              <li>Cuiseur de riz</li>
-              <li>Cuiseur de riz</li>
-              <li>Cuiseur de riz</li>
-              <li>Cuiseur de riz</li>
-              <li>Cuiseur de riz</li>
-            </ul>
+            <span class="filter_arrow arrow_appliance">
+              <img src="./images/arrow.svg" alt="fleche_dropdown" />
+            </span>
+            <ul class="filter_appliance_list lists hidden"></ul>
           </div>
 
           <!-- filtre des ustensiles-->
           <div class="filter_utensil filter_secondary">
-            <h2>Ustensiles</h2>
+            <h2 class="title_utensil">Ustensiles</h2>
             <input
               class="filter_utensil_search hidden"
               type="text"
               placeholder="Rechercher un ustensile"
             />
-            <img
-              class="filter_arrow"
-              src="./images/arrow.svg"
-              alt="fleche_dropdown"
-            />
-            <ul class="filter_utensil_list lists hidden">
-              <li>moule à tarte</li>
-              <li>moule à tarte</li>
-              <li>moule à tarte</li>
-              <li>moule à tarte</li>
-              <li>moule à tarte</li>
-              <li>moule à tarte</li>
-              <li>moule à tarte</li>
-              <li>moule à tarte</li>
-            </ul>
+            <span class="filter_arrow arrow_utensil">
+              <img src="./images/arrow.svg" alt="fleche_dropdown" />
+            </span>
+            <ul class="filter_utensil_list lists hidden"></ul>
           </div>
         </div>
       </section>

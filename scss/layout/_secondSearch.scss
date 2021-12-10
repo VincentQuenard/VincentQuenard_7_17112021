@@ -79,6 +79,10 @@ h2 {
   width: 100%;
   border-radius: 0 0 5px 5px;
   padding: 0 0 1rem 1rem;
+  column-width: 170px;
+  & li {
+    padding-bottom: 1rem;
+  }
 }
 .filter_ingredients_list {
   background-color: $couleur_background_ingredient;
@@ -90,4 +94,17 @@ h2 {
 
 .filter_utensil_list {
   background-color: $couleur_background_utensil;
+}
+@media (max-width: 669px) {
+  .filter_container {
+    justify-content: space-around;
+  }
+  .filter_secondary {
+    margin-bottom: 1.5rem;
+  }
+}
+@media (max-width: 935px) {
+  .lists {
+    z-index: 1;
+  }
 }

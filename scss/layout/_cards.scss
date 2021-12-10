@@ -71,3 +71,9 @@ h3 {
 .card_title {
   width: 70%;
 }
+
+@media (max-width: 825px) {
+  .cards {
+    justify-content: center;
+  }
+}
