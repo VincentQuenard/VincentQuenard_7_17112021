@@ -1,7 +1,11 @@
+//Importation du tableau des données à injecter
 import { recipes } from './recipes.js';
-//console.log(recipes);
 
+//console.log(recipes);
+// Container pour injecter les recettes
 const recettes = document.querySelector('.cards');
+
+//Constantes pour afficher et gérer les dropdown
 const dropdownIngredient = document.querySelector('.filter_ingredients_list');
 const dropdownAppliance = document.querySelector('.filter_appliance_list');
 const dropdownUtensil = document.querySelector('.filter_utensil_list');
@@ -24,15 +28,18 @@ const filterUtensilList = document.querySelector('.filter_utensil_list');
 const titleIngredients = document.querySelector('.title_ingredients');
 const titleAppliance = document.querySelector('.title_appliance');
 const titleUtensil = document.querySelector('.title_utensil');
-const arrow = document.querySelector('.filter_arrow');
+
 const arrowIngredients = document.querySelector('.arrow_ingredient');
 const arrowAppliance = document.querySelector('.arrow_appliance');
 const arrowUtensil = document.querySelector('.arrow_utensil');
 
+//  variables de tableaux vides, remplis pour entrées sans doublons pour affichage des dropdown
+let ingredientsListDropdown = [];
+let appliancesListDropdown = [];
+let utensilsListDropdown = [];
+
 //On boucle pour parcourir toutes les recettes du tableau
 for (let i = 0; i < recipes.length; i++) {
-  //console.log(recipes[i].ustensils[0]);
-
   //on recupère le tableau des données ingrédients, quantité et unité contenus dans chaque recette
   const ingredientDetail = recipes[i].ingredients;
 
@@ -68,9 +75,10 @@ for (let i = 0; i < recipes.length; i++) {
       displayIngredients += `<li>${ingredient}</li>`;
     }
 
-    dropdownIngredient.innerHTML += `<li>${ingredient}</li>`;
+    //dropdownIngredient.innerHTML += `<li>${ingredient}</li>`;
   }
 
+  //fonction qui va créer chaque carte de recette à chaque tour de boucle for
   function displayRecipes() {
     recettes.innerHTML += ` <article class="card" data-id="${recipes[i].id}">
           <div class="card_header">
@@ -110,8 +118,6 @@ for (let i = 0; i < recipes.length; i++) {
         </article>`;
   }
   displayRecipes();
-  dropdownAppliance.innerHTML += `<li>${recipes[i].appliance}</li>`;
-  dropdownUtensil.innerHTML += `<li>${recipes[i].ustensils}</li>`;
 }
 
 //Fonctions des actions faites à l'ouverture des dropdowns
@@ -149,7 +155,7 @@ function closeLingredientList() {
 }
 
 function closeApplicanceList() {
-  arrow.classList.remove('rotate_arrow');
+  arrowAppliance.classList.remove('rotate_arrow');
   titleAppliance.classList.remove('hidden');
   filterApplianceSearch.classList.add('hidden');
   filterAppliance.style.width = '10.625rem';
@@ -188,3 +194,37 @@ arrowUtensil.addEventListener('click', (e) => {
     openUtensilList();
   }
 });
+
+//fonction qui va concatener et ne renvoyer qu'un tableau pour les 3 entrées et on va retirer les mots se répétant avec new Set
+function removeDuplicate() {
+  recipes.forEach((recipe) => {
+    const onlyIngredients = recipe.ingredients;
+    onlyIngredients.forEach((onlyIngredient) => {
+      ingredientsListDropdown = [
+        ...new Set(ingredientsListDropdown.concat(onlyIngredient.ingredient)),
+      ].sort();
+    });
+
+    appliancesListDropdown = [
+      ...new Set(appliancesListDropdown.concat(recipe.appliance)),
+    ].sort();
+    utensilsListDropdown = [
+      ...new Set(utensilsListDropdown.concat(recipe.ustensils)),
+    ].sort();
+  });
+}
+removeDuplicate();
+
+// fonction qui va renvoyer une liste non ordonnée en fonction des différentes données de chaque lignes des 3 tableaux
+function displayDropdown() {
+  ingredientsListDropdown.forEach((ingredientListDropdown) => {
+    dropdownIngredient.innerHTML += `<li class="ingredients_list">${ingredientListDropdown}</li>`;
+  });
+  appliancesListDropdown.forEach((applianceListDropdown) => {
+    dropdownAppliance.innerHTML += `<li class="appliances_list">${applianceListDropdown}</li>`;
+  });
+  utensilsListDropdown.forEach((utensilListDropdown) => {
+    dropdownUtensil.innerHTML += `<li class="utensils_list">${utensilListDropdown}</li>`;
+  });
+}
+displayDropdown();
