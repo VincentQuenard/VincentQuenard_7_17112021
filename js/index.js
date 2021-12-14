@@ -218,13 +218,58 @@ removeDuplicate();
 // fonction qui va renvoyer une liste non ordonnée en fonction des différentes données de chaque lignes des 3 tableaux
 function displayDropdown() {
   ingredientsListDropdown.forEach((ingredientListDropdown) => {
-    dropdownIngredient.innerHTML += `<li class="ingredients_list">${ingredientListDropdown}</li>`;
+    dropdownIngredient.innerHTML += `<li class="ingredients_list" tabindex="0">${ingredientListDropdown}</li>`;
   });
   appliancesListDropdown.forEach((applianceListDropdown) => {
-    dropdownAppliance.innerHTML += `<li class="appliances_list">${applianceListDropdown}</li>`;
+    dropdownAppliance.innerHTML += `<li class="appliances_list" tabindex="0">${applianceListDropdown}</li>`;
   });
   utensilsListDropdown.forEach((utensilListDropdown) => {
-    dropdownUtensil.innerHTML += `<li class="utensils_list">${utensilListDropdown}</li>`;
+    dropdownUtensil.innerHTML += `<li class="utensils_list" tabindex="0">${utensilListDropdown}</li>`;
   });
 }
 displayDropdown();
+
+const displayTags = document.querySelector('.tags_selection');
+
+let displayIngredientsTag = document.querySelectorAll('.ingredients_list');
+let displayAppliancesTag = document.querySelectorAll('.appliances_list');
+let displayUtensilsTag = document.querySelectorAll('.utensils_list');
+
+function displayTagSelected() {
+  displayIngredientsTag.forEach((displayIngredientTag) => {
+    displayIngredientTag.addEventListener('click', (e) => {
+      console.log(e.target.value);
+      displayTags.innerHTML += `<div class="tags tags_ingredients">
+          <p class="tag_text">${displayIngredientTag.innerHTML}</p>
+          <button class="btn_close">
+            <i class="fas fa-times-circle"></i>
+          </button>
+        </div>`;
+    });
+  });
+
+  displayAppliancesTag.forEach((displayApplianceTag) => {
+    displayApplianceTag.addEventListener('click', (e) => {
+      console.log(e.target.value);
+      displayTags.innerHTML += `<div class="tags tags_appliance">
+          <p class="tag_text">${displayApplianceTag.innerHTML}</p>
+          <button class="btn_close">
+            <i class="fas fa-times-circle"></i>
+          </button>
+        </div>`;
+    });
+  });
+
+  displayUtensilsTag.forEach((displayUtensilTag) => {
+    displayUtensilTag.addEventListener('click', (e) => {
+      console.log(e.target.value);
+      displayTags.innerHTML += `<div class="tags tags_ustensil">
+          <p class="tag_text">${displayUtensilTag.innerHTML}</p>
+          <button class="btn_close">
+            <i class="fas fa-times-circle"></i>
+          </button>
+        </div>`;
+    });
+  });
+}
+displayTagSelected();

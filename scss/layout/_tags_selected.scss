@@ -1,7 +1,7 @@
 .tags_selection {
   display: flex;
 
-  & .tag {
+  & .tags {
     display: flex;
     margin: 0 1rem 1rem 0;
     align-items: center;
@@ -15,18 +15,24 @@
   & .fa-times-circle {
     font-weight: 400;
     margin-left: 0.7rem;
+    color: $couleur_police_blanche;
   }
 
-  & .ingredients {
+  & .tags_ingredients {
     background-color: $couleur_background_ingredient;
   }
 
-  & .appliance {
+  & .tags_appliance {
     background-color: $couleur_background_appliance;
   }
 
-  & .ustensil {
+  & .tags_ustensil {
     background-color: $couleur_background_utensil;
+  }
+  & .btn_close {
+    background-color: transparent;
+    border: none;
+    align-self: center;
   }
 }
 @media (max-width: 550px) {
