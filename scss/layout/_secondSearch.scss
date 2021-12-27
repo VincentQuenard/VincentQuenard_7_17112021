@@ -4,7 +4,6 @@
 
 .filter_container {
   display: flex;
-  flex-wrap: wrap;
 }
 
 h2 {
@@ -97,6 +96,7 @@ h2 {
 }
 @media (max-width: 669px) {
   .filter_container {
+    flex-wrap: wrap;
     justify-content: space-around;
   }
   .filter_secondary {

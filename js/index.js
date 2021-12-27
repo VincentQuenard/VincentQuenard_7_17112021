@@ -1,9 +1,9 @@
 //Importation du tableau des données à injecter
 import { recipes } from './recipes.js';
 
-//console.log(recipes);
+console.log(recipes);
 // Container pour injecter les recettes
-const recettes = document.querySelector('.cards');
+let recettes = document.querySelector('.cards');
 
 //Constantes pour afficher et gérer les dropdown
 const dropdownIngredient = document.querySelector('.filter_ingredients_list');
@@ -39,47 +39,49 @@ let appliancesListDropdown = [];
 let utensilsListDropdown = [];
 
 //On boucle pour parcourir toutes les recettes du tableau
-for (let i = 0; i < recipes.length; i++) {
-  //on recupère le tableau des données ingrédients, quantité et unité contenus dans chaque recette
-  const ingredientDetail = recipes[i].ingredients;
+function displayRecipes(recipes) {
+  for (let i = 0; i < recipes.length; i++) {
+    //on recupère le tableau des données ingrédients, quantité et unité contenus dans chaque recette
+    const ingredientDetail = recipes[i].ingredients;
+    const ustensils = recipes[i].ustensils;
 
-  // On déclare une variable avec une chaine vide qu'on va remplir en fonction des données reçues dans la boucle pour afficher les ingrédients
-  let displayIngredients = '';
+    // On déclare une variable avec une chaine vide qu'on va remplir en fonction des données reçues dans la boucle pour afficher les ingrédients
+    let displayIngredients = '';
 
-  // On boucle sur la partie ingrédient pour récupérer le contenu pour chaque partie de chaque recette de ingredients
-  for (let j = 0; j < ingredientDetail.length; j++) {
-    //On récupère les données ingredient pour chaque recette
-    const ingredient = ingredientDetail[j].ingredient;
+    // On boucle sur la partie ingrédient pour récupérer le contenu pour chaque partie de chaque recette de ingredients
+    for (let j = 0; j < ingredientDetail.length; j++) {
+      //On récupère les données ingredient pour chaque recette
+      const ingredient = ingredientDetail[j].ingredient;
 
-    //On récupère les données quantity pour chaque recette
-    const quantite = ingredientDetail[j].quantity;
+      //On récupère les données quantity pour chaque recette
+      const quantite = ingredientDetail[j].quantity;
 
-    //On récupère les données unit pour chaque recette
-    let unite = ingredientDetail[j].unit;
+      //On récupère les données unit pour chaque recette
+      let unite = ingredientDetail[j].unit;
 
-    // On réduit le nombre de charactères pour les unités afin de prendre moin de place à l'affichage
-    if (unite === 'grammes') {
-      unite = 'g';
-    } else if (unite === 'cuillères à soupe') {
-      unite = 'cas';
-    } else if (unite === 'cuillères à café') {
-      unite = 'cac';
+      // On réduit le nombre de charactères pour les unités afin de prendre moin de place à l'affichage
+      if (unite === 'grammes') {
+        unite = 'g';
+      } else if (unite === 'cuillères à soupe') {
+        unite = 'cas';
+      } else if (unite === 'cuillères à café') {
+        unite = 'cac';
+      }
+
+      //Les données injectées dans la partie des ingrédients sont des listes non ordonnées, on vérifie s'il y a des quantités et des unités aux ingrédients et on injecte en js en fonction
+      if (quantite && unite != undefined) {
+        displayIngredients += `<li>${ingredient} : ${quantite}${unite}</li>`;
+      } else if (quantite != undefined && unite == undefined) {
+        displayIngredients += `<li>${ingredient}: ${quantite}</li>`;
+      } else if (quantite && unite == undefined) {
+        displayIngredients += `<li>${ingredient}</li>`;
+      }
+
+      //dropdownIngredient.innerHTML += `<li>${ingredient}</li>`;
     }
 
-    //Les données injectées dans la partie des ingrédients sont des listes non ordonnées, on vérifie s'il y a des quantités et des unités aux ingrédients et on injecte en js en fonction
-    if (quantite && unite != undefined) {
-      displayIngredients += `<li>${ingredient} : ${quantite}${unite}</li>`;
-    } else if (quantite != undefined && unite == undefined) {
-      displayIngredients += `<li>${ingredient}: ${quantite}</li>`;
-    } else if (quantite && unite == undefined) {
-      displayIngredients += `<li>${ingredient}</li>`;
-    }
+    //fonction qui va créer chaque carte de recette à chaque tour de boucle for
 
-    //dropdownIngredient.innerHTML += `<li>${ingredient}</li>`;
-  }
-
-  //fonction qui va créer chaque carte de recette à chaque tour de boucle for
-  function displayRecipes() {
     recettes.innerHTML += ` <article class="card" data-id="${recipes[i].id}">
           <div class="card_header">
             <img
@@ -117,8 +119,8 @@ for (let i = 0; i < recipes.length; i++) {
           </div>
         </article>`;
   }
-  displayRecipes();
 }
+displayRecipes(recipes);
 
 //Fonctions des actions faites à l'ouverture des dropdowns
 function openLingredientList() {
@@ -229,18 +231,19 @@ function displayDropdown() {
 }
 displayDropdown();
 
-const displayTags = document.querySelector('.tags_selection');
+let displayTags = document.querySelector('.tags_selection');
+let closeTags = document.querySelectorAll('.btn_close');
+let tags = document.querySelectorAll('.tags');
 
 let displayIngredientsTag = document.querySelectorAll('.ingredients_list');
 let displayAppliancesTag = document.querySelectorAll('.appliances_list');
 let displayUtensilsTag = document.querySelectorAll('.utensils_list');
-
+//displayTags.innerHTML = '';
 function displayTagSelected() {
   displayIngredientsTag.forEach((displayIngredientTag) => {
     displayIngredientTag.addEventListener('click', (e) => {
-      console.log(e.target.value);
       displayTags.innerHTML += `<div class="tags tags_ingredients">
-          <p class="tag_text">${displayIngredientTag.innerHTML}</p>
+          <p class="tag_text">${e.target.textContent}</p>
           <button class="btn_close">
             <i class="fas fa-times-circle"></i>
           </button>
@@ -250,9 +253,8 @@ function displayTagSelected() {
 
   displayAppliancesTag.forEach((displayApplianceTag) => {
     displayApplianceTag.addEventListener('click', (e) => {
-      console.log(e.target.value);
       displayTags.innerHTML += `<div class="tags tags_appliance">
-          <p class="tag_text">${displayApplianceTag.innerHTML}</p>
+          <p class="tag_text">${e.target.textContent}</p>
           <button class="btn_close">
             <i class="fas fa-times-circle"></i>
           </button>
@@ -262,9 +264,8 @@ function displayTagSelected() {
 
   displayUtensilsTag.forEach((displayUtensilTag) => {
     displayUtensilTag.addEventListener('click', (e) => {
-      console.log(e.target.value);
       displayTags.innerHTML += `<div class="tags tags_ustensil">
-          <p class="tag_text">${displayUtensilTag.innerHTML}</p>
+          <p class="tag_text">${e.target.textContent}</p>
           <button class="btn_close">
             <i class="fas fa-times-circle"></i>
           </button>
@@ -273,3 +274,92 @@ function displayTagSelected() {
   });
 }
 displayTagSelected();
+
+//fermeture des tags ouverts NE FONCTIONNE PAS EN DYNAMIQUE
+tags.forEach((tag) => {
+  tag.addEventListener('click', (e) => {
+    console.log(e.target);
+    tag.style.display = 'none';
+  });
+});
+function closeTag(coco) {}
+//IDEE FILTRE PRINCIPAL NE FONCTIONNE PAS POUR USTENSILES
+const mainSearch = document.querySelector('.main_search_filter');
+let mainFilterResult = [];
+mainSearch.addEventListener('input', (e) => {
+  const inputValue = e.target.value;
+  if (inputValue.length >= 3) {
+    mainFilterResult = recipes.filter(
+      (result) =>
+        result.name.toLowerCase().includes(inputValue.toLowerCase()) ||
+        result.appliance.toLowerCase().includes(inputValue.toLowerCase()) ||
+        result.ustensils.find((ustensil) =>
+          ustensil.toLowerCase().includes(inputValue.toLowerCase())
+        ) ||
+        result.ingredients.find((ingredientArray) =>
+          ingredientArray.ingredient
+            .toLowerCase()
+            .includes(inputValue.toLowerCase())
+        )
+    );
+    console.log(mainFilterResult);
+    recettes.innerHTML = '';
+    displayRecipes(mainFilterResult);
+  }
+  if (inputValue.length >= 0) {
+    recipes.filter(
+      (result) =>
+        result.name.toLowerCase().includes(!inputValue.toLowerCase()) ||
+        result.appliance.toLowerCase().includes(!inputValue.toLowerCase()) ||
+        result.ustensils.find((ustensil) =>
+          ustensil.toLowerCase().includes(!inputValue.toLowerCase())
+        ) ||
+        result.ingredients.find((ingredientArray) =>
+          ingredientArray.ingredient
+            .toLowerCase()
+            .includes(!inputValue.toLowerCase())
+        )
+    );
+    recettes.innerHTML += `
+    <p class="name_site"> Aucune recette ne correspond à votre critère… vous pouvez chercher « tarte aux pommes », « poisson », etc </p>`;
+  } else {
+    recettes.innerHTML = '';
+    displayRecipes(recipes);
+  }
+  /*if (mainFilterResult.length = 0) {
+    recipes.filter(
+      (result) =>
+        result.name.toLowerCase().includes(!inputValue.toLowerCase()) ||
+        result.appliance.toLowerCase().includes(!inputValue.toLowerCase()) ||
+         result.ustensils.find((ustensil) =>
+          ustensil.toLowerCase().includes(!inputValue.toLowerCase())
+        ) ||
+        result.ingredients.find((ingredientArray) =>
+          ingredientArray.ingredient
+            .toLowerCase()
+            .includes(!inputValue.toLowerCase())
+        )
+    );
+    recettes.innerHTML += `
+    <p class="name_site"> Aucune recette ne correspond à votre critère… vous pouvez chercher « tarte aux pommes », « poisson », etc </p>`;
+  }
+  paremètre si no match : mainFilterResult.length = 0
+  */
+});
+
+//IDEE FILTRES DROPDOWN
+/* PAS BON CE N EST PAS LE TABLEAU RECIPE A RECUPERER MAIS CELUI CREE SUR LE DROPDOWN
+//INGREDIENTS :
+
+
+const inputIngredient = document.querySelector('.filter_ingredients_search');
+
+inputIngredient.addEventListener('input', (e) => {
+  console.log(e.target.value);
+  const inputValue = e.target.value;
+  const ingredientFilterResult = recipes.filter((result) =>
+    result.ingredients.includes(inputValue)
+  );
+  console.log(ingredientFilterResult);
+});*/
+console.log(ingredientsListDropdown);

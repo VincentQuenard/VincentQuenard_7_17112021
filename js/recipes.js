@@ -1,7 +1,7 @@
 const recipes = [
   {
     id: 1,
-    name: 'Limonade de Coco',
+    name: 'Limonade de coco',
     servings: 1,
     ingredients: [
       {
@@ -48,7 +48,7 @@ const recipes = [
         quantity: 1,
       },
       {
-        ingredient: 'Tomate',
+        ingredient: 'Tomates',
         quantity: 2,
       },
       {
@@ -126,7 +126,7 @@ const recipes = [
         unit: 'grammes',
       },
       {
-        ingredient: 'Tomate',
+        ingredient: 'Tomates',
         quantity: 2,
       },
       {
@@ -174,7 +174,7 @@ const recipes = [
         unit: 'cuillères à soupe',
       },
       {
-        ingredient: 'gruyère râpé',
+        ingredient: 'Gruyère râpé',
         quantity: 100,
         unit: 'grammes',
       },
@@ -294,7 +294,7 @@ const recipes = [
         unit: 'grammes',
       },
       {
-        ingredient: 'farine',
+        ingredient: 'Farine',
         quantity: 90,
         unit: 'grammes',
       },
@@ -443,7 +443,7 @@ const recipes = [
     description:
       "Éplucher les fruits et les couper en morceaux, les mettre dans une casserolle en ajoutant l'eau et le sucre vanillé. Laisser cuire 15 minutes en remuant régulièrement.",
     appliance: 'Casserole',
-    ustensils: ['couteau', 'économe'],
+    ustensils: ['couteau', 'econome'],
   },
   {
     id: 13,
@@ -461,7 +461,7 @@ const recipes = [
         unit: 'grammes',
       },
       {
-        ingredient: 'Échalote',
+        ingredient: 'Echalote',
         quantity: 2,
       },
       {
@@ -470,7 +470,7 @@ const recipes = [
         unit: 'cuillères à soupe',
       },
       {
-        ingredient: "huile d'olives",
+        ingredient: "Huile d'olives",
         quantity: 2,
         unit: 'cuillères à soupe',
       },
@@ -566,7 +566,7 @@ const recipes = [
     servings: 2,
     ingredients: [
       {
-        ingredient: 'Tomate',
+        ingredient: 'Tomates',
         quantity: 500,
         unit: 'grammes',
       },
@@ -586,7 +586,7 @@ const recipes = [
         unit: 'tiges',
       },
       {
-        ingredient: "huile d'olives",
+        ingredient: "Huile d'olives",
         quantity: 2,
         unit: 'cuillères à soupe',
       },
@@ -716,7 +716,7 @@ const recipes = [
         unit: 'grammes',
       },
       {
-        ingredient: "huile d'olives",
+        ingredient: "Huile d'olives",
         quantity: 1,
         unit: 'cuillères à soupe',
       },
@@ -861,7 +861,7 @@ const recipes = [
         unit: 'grammes',
       },
       {
-        ingredient: 'Tomate',
+        ingredient: 'Tomates',
         quantity: 1,
       },
       {
@@ -927,7 +927,7 @@ const recipes = [
     servings: 2,
     ingredients: [
       {
-        ingredient: 'Tomate',
+        ingredient: 'Tomates',
         quantity: 6,
       },
       {
@@ -1115,7 +1115,7 @@ const recipes = [
     description:
       "Découper en cubes les carottes et pommes de terre. Faire revenir dans du beurre. Ajouter les lardons, une fois les lardons dorés, ajouter un grand verre d'eau. Ajouter les petit poids et les haricots verts ( tous deux pré cuits ). Ajouter Sel, poivre, thyms et laurier",
     appliance: 'Poële',
-    ustensils: ['couteau', 'économe'],
+    ustensils: ['couteau', 'econome'],
   },
   {
     id: 32,
@@ -1222,7 +1222,7 @@ const recipes = [
     description:
       "Eplucher les patates douces et coupez les en morceaux. Les faire cuire durant 20 minute dans une casserolle d'eau bouillante. Passer au mixer en ajoutant la crème et l'huile d'olive à son gout. Salez, poivrez. Pressez l'orange et ajouter le jus à l'ensemble. Servir.",
     appliance: 'Mixer',
-    ustensils: ['couteau', 'économe', 'cuillère en bois'],
+    ustensils: ['couteau', 'econome', 'cuillère en bois'],
   },
   {
     id: 35,
@@ -1553,7 +1553,7 @@ const recipes = [
         unit: 'grammes',
       },
       {
-        ingredient: 'farine',
+        ingredient: 'Farine',
         quantity: 40,
         unit: 'grammes',
       },
