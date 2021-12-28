@@ -283,7 +283,8 @@ tags.forEach((tag) => {
   });
 });
 function closeTag(coco) {}
-//IDEE FILTRE PRINCIPAL NE FONCTIONNE PAS POUR USTENSILES
+
+//Filtre principal
 const mainSearch = document.querySelector('.main_search_filter');
 let mainFilterResult = [];
 mainSearch.addEventListener('input', (e) => {
@@ -303,48 +304,18 @@ mainSearch.addEventListener('input', (e) => {
         )
     );
     console.log(mainFilterResult);
+
     recettes.innerHTML = '';
     displayRecipes(mainFilterResult);
-  }
-  if (inputValue.length >= 0) {
-    recipes.filter(
-      (result) =>
-        result.name.toLowerCase().includes(!inputValue.toLowerCase()) ||
-        result.appliance.toLowerCase().includes(!inputValue.toLowerCase()) ||
-        result.ustensils.find((ustensil) =>
-          ustensil.toLowerCase().includes(!inputValue.toLowerCase())
-        ) ||
-        result.ingredients.find((ingredientArray) =>
-          ingredientArray.ingredient
-            .toLowerCase()
-            .includes(!inputValue.toLowerCase())
-        )
-    );
-    recettes.innerHTML += `
-    <p class="name_site"> Aucune recette ne correspond à votre critère… vous pouvez chercher « tarte aux pommes », « poisson », etc </p>`;
+
+    if (mainFilterResult.length == 0) {
+      recettes.innerHTML += `
+      <p class="name_site"> Aucune recette ne correspond à votre critère… vous pouvez chercher « tarte aux pommes », « poisson », etc </p>`;
+    }
   } else {
     recettes.innerHTML = '';
     displayRecipes(recipes);
   }
-  /*if (mainFilterResult.length = 0) {
-    recipes.filter(
-      (result) =>
-        result.name.toLowerCase().includes(!inputValue.toLowerCase()) ||
-        result.appliance.toLowerCase().includes(!inputValue.toLowerCase()) ||
-         result.ustensils.find((ustensil) =>
-          ustensil.toLowerCase().includes(!inputValue.toLowerCase())
-        ) ||
-        result.ingredients.find((ingredientArray) =>
-          ingredientArray.ingredient
-            .toLowerCase()
-            .includes(!inputValue.toLowerCase())
-        )
-    );
-    recettes.innerHTML += `
-    <p class="name_site"> Aucune recette ne correspond à votre critère… vous pouvez chercher « tarte aux pommes », « poisson », etc </p>`;
-  }
-  paremètre si no match : mainFilterResult.length = 0
-  */
 });
 
 //IDEE FILTRES DROPDOWN
