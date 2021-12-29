@@ -38,12 +38,16 @@ let ingredientsListDropdown = [];
 let appliancesListDropdown = [];
 let utensilsListDropdown = [];
 
+// variables recherche
+const mainSearch = document.querySelector('.main_search_filter');
+let filterResult = [];
+let inputValue = '';
+
 //On boucle pour parcourir toutes les recettes du tableau
 function displayRecipes(recipes) {
   for (let i = 0; i < recipes.length; i++) {
     //on recupère le tableau des données ingrédients, quantité et unité contenus dans chaque recette
     const ingredientDetail = recipes[i].ingredients;
-    const ustensils = recipes[i].ustensils;
 
     // On déclare une variable avec une chaine vide qu'on va remplir en fonction des données reçues dans la boucle pour afficher les ingrédients
     let displayIngredients = '';
@@ -233,12 +237,14 @@ displayDropdown();
 
 let displayTags = document.querySelector('.tags_selection');
 let closeTags = document.querySelectorAll('.btn_close');
-let tags = document.querySelectorAll('.tags');
+let tags = document.querySelectorAll('.tags_ingredients');
 
 let displayIngredientsTag = document.querySelectorAll('.ingredients_list');
 let displayAppliancesTag = document.querySelectorAll('.appliances_list');
 let displayUtensilsTag = document.querySelectorAll('.utensils_list');
 //displayTags.innerHTML = '';
+
+//fonction pour afficher en tags les élements cliqués des dropdown
 function displayTagSelected() {
   displayIngredientsTag.forEach((displayIngredientTag) => {
     displayIngredientTag.addEventListener('click', (e) => {
@@ -277,6 +283,7 @@ displayTagSelected();
 
 //fermeture des tags ouverts NE FONCTIONNE PAS EN DYNAMIQUE
 tags.forEach((tag) => {
+  console.log(tag);
   tag.addEventListener('click', (e) => {
     console.log(e.target);
     tag.style.display = 'none';
@@ -285,37 +292,10 @@ tags.forEach((tag) => {
 function closeTag(coco) {}
 
 //Filtre principal
-const mainSearch = document.querySelector('.main_search_filter');
-let mainFilterResult = [];
+
 mainSearch.addEventListener('input', (e) => {
-  const inputValue = e.target.value;
-  if (inputValue.length >= 3) {
-    mainFilterResult = recipes.filter(
-      (result) =>
-        result.name.toLowerCase().includes(inputValue.toLowerCase()) ||
-        result.appliance.toLowerCase().includes(inputValue.toLowerCase()) ||
-        result.ustensils.find((ustensil) =>
-          ustensil.toLowerCase().includes(inputValue.toLowerCase())
-        ) ||
-        result.ingredients.find((ingredientArray) =>
-          ingredientArray.ingredient
-            .toLowerCase()
-            .includes(inputValue.toLowerCase())
-        )
-    );
-    console.log(mainFilterResult);
-
-    recettes.innerHTML = '';
-    displayRecipes(mainFilterResult);
-
-    if (mainFilterResult.length == 0) {
-      recettes.innerHTML += `
-      <p class="name_site"> Aucune recette ne correspond à votre critère… vous pouvez chercher « tarte aux pommes », « poisson », etc </p>`;
-    }
-  } else {
-    recettes.innerHTML = '';
-    displayRecipes(recipes);
-  }
+  inputValue = e.target.value;
+  filterInput();
 });
 
 //IDEE FILTRES DROPDOWN
@@ -334,3 +314,101 @@ inputIngredient.addEventListener('input', (e) => {
   console.log(ingredientFilterResult);
 });*/
 console.log(ingredientsListDropdown);
+
+/*filterIngredient.addEventListener('click', (e) => {
+  console.log(e.target.textContent);
+});*/
+
+//fonction des input qui filtre les recettes en fonction des lettres tapées
+function filterInput() {
+  if (inputValue.length >= 3) {
+    filterResult = recipes.filter(
+      (result) =>
+        result.name.toLowerCase().includes(inputValue.toLowerCase()) ||
+        result.appliance.toLowerCase().includes(inputValue.toLowerCase()) ||
+        result.ustensils.find((ustensil) =>
+          ustensil.toLowerCase().includes(inputValue.toLowerCase())
+        ) ||
+        result.ingredients.find((ingredientArray) =>
+          ingredientArray.ingredient
+            .toLowerCase()
+            .includes(inputValue.toLowerCase())
+        )
+    );
+
+    recettes.innerHTML = '';
+    displayRecipes(filterResult);
+
+    if (filterResult.length == 0) {
+      recettes.innerHTML += `
+    <p class="name_site"> Aucune recette ne correspond à votre critère… vous pouvez chercher « tarte aux pommes », « poisson », etc </p>`;
+    }
+  } else {
+    recettes.innerHTML = '';
+    displayRecipes(recipes);
+  }
+}
+
+filterIngredientsSearch.addEventListener('input', (e) => {
+  inputValue = e.target.value;
+  if (inputValue.length >= 3) {
+    filterResult = recipes.filter((result) =>
+      result.ingredients.find((ingredientArray) =>
+        ingredientArray.ingredient
+          .toLowerCase()
+          .includes(inputValue.toLowerCase())
+      )
+    );
+
+    recettes.innerHTML = '';
+    displayRecipes(filterResult);
+
+    if (filterResult.length == 0) {
+      recettes.innerHTML += `
+    <p class="name_site"> Aucune recette ne correspond à votre critère… vous pouvez chercher « tarte aux pommes », « poisson », etc </p>`;
+    }
+  } else {
+    recettes.innerHTML = '';
+    displayRecipes(recipes);
+  }
+});
+filterApplianceSearch.addEventListener('input', (e) => {
+  inputValue = e.target.value;
+  if (inputValue.length >= 3) {
+    filterResult = recipes.filter((result) =>
+      result.appliance.toLowerCase().includes(inputValue.toLowerCase())
+    );
+
+    recettes.innerHTML = '';
+    displayRecipes(filterResult);
+
+    if (filterResult.length == 0) {
+      recettes.innerHTML += `
+    <p class="name_site"> Aucune recette ne correspond à votre critère… vous pouvez chercher « tarte aux pommes », « poisson », etc </p>`;
+    }
+  } else {
+    recettes.innerHTML = '';
+    displayRecipes(recipes);
+  }
+});
+filterUtensilSearch.addEventListener('input', (e) => {
+  inputValue = e.target.value;
+  if (inputValue.length >= 3) {
+    filterResult = recipes.filter((result) =>
+      result.ustensils.find((ustensil) =>
+        ustensil.toLowerCase().includes(inputValue.toLowerCase())
+      )
+    );
+
+    recettes.innerHTML = '';
+    displayRecipes(filterResult);
+
+    if (filterResult.length == 0) {
+      recettes.innerHTML += `
+    <p class="name_site"> Aucune recette ne correspond à votre critère… vous pouvez chercher « tarte aux pommes », « poisson », etc </p>`;
+    }
+  } else {
+    recettes.innerHTML = '';
+    displayRecipes(recipes);
+  }
+});

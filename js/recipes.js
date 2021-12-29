@@ -156,7 +156,7 @@ const recipes = [
     servings: 4,
     ingredients: [
       {
-        ingredient: 'Pâte feuilletée',
+        ingredient: 'Pate feuilletée',
         quantity: 1,
       },
       {
@@ -196,7 +196,7 @@ const recipes = [
     servings: 6,
     ingredients: [
       {
-        ingredient: 'Pâte brisée',
+        ingredient: 'Pate brisée',
         quantity: 1,
       },
       {
@@ -235,7 +235,7 @@ const recipes = [
     servings: 6,
     ingredients: [
       {
-        ingredient: 'Pâte sablée',
+        ingredient: 'Pate sablée',
         quantity: 1,
       },
       {
@@ -562,7 +562,7 @@ const recipes = [
   },
   {
     id: 16,
-    name: 'Gratin de pâtes à la tomate',
+    name: 'Gratin de pates à la tomate',
     servings: 2,
     ingredients: [
       {
@@ -810,7 +810,7 @@ const recipes = [
     servings: 4,
     ingredients: [
       {
-        ingredient: 'Pâte brisée',
+        ingredient: 'Pate brisée',
         quantity: 200,
         unit: 'grammes',
       },
@@ -1499,7 +1499,7 @@ const recipes = [
     servings: 6,
     ingredients: [
       {
-        ingredient: 'Pâte brisée',
+        ingredient: 'Pate brisée',
         quantity: 200,
         unit: 'grammes',
       },
@@ -1674,7 +1674,7 @@ const recipes = [
     servings: 4,
     ingredients: [
       {
-        ingredient: 'Pâte à pizza',
+        ingredient: 'Pate à pizza',
         quantity: 1,
       },
       {
@@ -1744,7 +1744,7 @@ const recipes = [
     servings: 2,
     ingredients: [
       {
-        ingredient: 'Pâte feuilletée',
+        ingredient: 'Pate feuilletée',
         quantity: 400,
         unit: 'grammes',
       },
