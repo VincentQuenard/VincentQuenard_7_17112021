@@ -236,8 +236,7 @@ function displayDropdown() {
 displayDropdown();
 
 let displayTags = document.querySelector('.tags_selection');
-let closeTags = document.querySelectorAll('.btn_close');
-let tags = document.querySelectorAll('.tags_ingredients');
+let crossesTags = document.querySelectorAll('.fa-times-circle');
 
 let displayIngredientsTag = document.querySelectorAll('.ingredients_list');
 let displayAppliancesTag = document.querySelectorAll('.appliances_list');
@@ -254,6 +253,8 @@ function displayTagSelected() {
             <i class="fas fa-times-circle"></i>
           </button>
         </div>`;
+      closeLingredientList();
+      closeTag();
     });
   });
 
@@ -265,6 +266,8 @@ function displayTagSelected() {
             <i class="fas fa-times-circle"></i>
           </button>
         </div>`;
+      closeApplicanceList();
+      closeTag();
     });
   });
 
@@ -276,48 +279,30 @@ function displayTagSelected() {
             <i class="fas fa-times-circle"></i>
           </button>
         </div>`;
+      closeUtensilList();
+      closeTag();
     });
   });
 }
 displayTagSelected();
 
 //fermeture des tags ouverts NE FONCTIONNE PAS EN DYNAMIQUE
-tags.forEach((tag) => {
-  console.log(tag);
-  tag.addEventListener('click', (e) => {
-    console.log(e.target);
-    tag.style.display = 'none';
+function closeTag() {
+  let tags = document.querySelectorAll('.tags');
+  tags.forEach((tag) => {
+    console.log(tag);
+    tag.addEventListener('click', (e) => {
+      console.log(e.target);
+      tag.remove();
+    });
   });
-});
-function closeTag(coco) {}
-
+}
 //Filtre principal
 
 mainSearch.addEventListener('input', (e) => {
   inputValue = e.target.value;
   filterInput();
 });
-
-//IDEE FILTRES DROPDOWN
-/* PAS BON CE N EST PAS LE TABLEAU RECIPE A RECUPERER MAIS CELUI CREE SUR LE DROPDOWN
-//INGREDIENTS :
-
-
-const inputIngredient = document.querySelector('.filter_ingredients_search');
-
-inputIngredient.addEventListener('input', (e) => {
-  console.log(e.target.value);
-  const inputValue = e.target.value;
-  const ingredientFilterResult = recipes.filter((result) =>
-    result.ingredients.includes(inputValue)
-  );
-  console.log(ingredientFilterResult);
-});*/
-console.log(ingredientsListDropdown);
-
-/*filterIngredient.addEventListener('click', (e) => {
-  console.log(e.target.textContent);
-});*/
 
 //fonction des input qui filtre les recettes en fonction des lettres tapées
 function filterInput() {
@@ -349,6 +334,7 @@ function filterInput() {
   }
 }
 
+//Filtre des recettes par les inputs des dropdown
 filterIngredientsSearch.addEventListener('input', (e) => {
   inputValue = e.target.value;
   if (inputValue.length >= 3) {
@@ -412,3 +398,5 @@ filterUtensilSearch.addEventListener('input', (e) => {
     displayRecipes(recipes);
   }
 });
+
+console.log(ingredientsListDropdown);
