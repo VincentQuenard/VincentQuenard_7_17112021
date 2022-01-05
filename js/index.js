@@ -328,7 +328,8 @@ function filterInput() {
           ingredientArray.ingredient
             .toLowerCase()
             .includes(inputValue.toLowerCase())
-        )
+        ) ||
+        result.description.toLowerCase().includes(inputValue.toLowerCase())
     );
 
     recettes.innerHTML = '';
