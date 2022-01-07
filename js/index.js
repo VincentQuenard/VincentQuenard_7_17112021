@@ -2,6 +2,7 @@
 import { recipes } from './recipes.js';
 
 console.log(recipes);
+
 // Container pour injecter les recettes
 let recettes = document.querySelector('.cards');
 
@@ -37,10 +38,15 @@ const arrowUtensil = document.querySelector('.arrow_utensil');
 let ingredientsListDropdown = [];
 let appliancesListDropdown = [];
 let utensilsListDropdown = [];
+//On déclare 3 variables pour chaque dropdown en tableaux vides pour les remplir avec les résultats du filtre pour chaque
+let filterResultIngredient = [];
+let filterResultAppliance = [];
+let filterResultUstensils = [];
 
 // variables recherche
 const mainSearch = document.querySelector('.main_search_filter');
-let filterResult = [];
+
+let filterMainResult = [...recipes];
 let inputValue = '';
 
 //On boucle pour parcourir toutes les recettes du tableau
@@ -251,48 +257,52 @@ let displayAppliancesTag = document.querySelectorAll('.appliances_list');
 let displayUtensilsTag = document.querySelectorAll('.utensils_list');
 
 //fonction pour afficher en tags les élements cliqués des dropdown
-function displayTagSelected() {
-  displayIngredientsTag.forEach((displayIngredientTag) => {
-    displayIngredientTag.addEventListener('click', (e) => {
-      console.log(e.target.textContent);
-      displayTags.innerHTML += `<div class="tags tags_ingredients data-tag="${e.target.textContent}">
-          <p class="tag_text">${e.target.textContent}</p>
-          <button class="btn_close">
-            <i class="fas fa-times-circle"></i>
-          </button>
-        </div>`;
-      closeLingredientList();
-      closeTag();
-    });
-  });
 
-  displayAppliancesTag.forEach((displayApplianceTag) => {
-    displayApplianceTag.addEventListener('click', (e) => {
-      displayTags.innerHTML += `<div class="tags tags_appliance data-tag="${e.target.textContent}">
+displayIngredientsTag.forEach((displayIngredientTag) => {
+  displayIngredientTag.addEventListener('click', (e) => {
+    inputValue = e.target.textContent;
+    console.log(e.target.textContent);
+    displayTags.innerHTML += `<div class="tags tags_ingredients active">
           <p class="tag_text">${e.target.textContent}</p>
           <button class="btn_close">
             <i class="fas fa-times-circle"></i>
           </button>
         </div>`;
-      closeApplicanceList();
-      closeTag();
-    });
+    filterResult();
+    closeLingredientList();
+    closeTag();
   });
+});
 
-  displayUtensilsTag.forEach((displayUtensilTag) => {
-    displayUtensilTag.addEventListener('click', (e) => {
-      displayTags.innerHTML += `<div class="tags tags_ustensil data-tag="${e.target.textContent}">
+displayAppliancesTag.forEach((displayApplianceTag) => {
+  displayApplianceTag.addEventListener('click', (e) => {
+    inputValue = e.target.textContent;
+    displayTags.innerHTML += `<div class="tags tags_appliance active">
           <p class="tag_text">${e.target.textContent}</p>
           <button class="btn_close">
             <i class="fas fa-times-circle"></i>
           </button>
         </div>`;
-      closeUtensilList();
-      closeTag();
-    });
+    filterResult();
+    closeApplicanceList();
+    closeTag();
   });
-}
-displayTagSelected();
+});
+
+displayUtensilsTag.forEach((displayUtensilTag) => {
+  displayUtensilTag.addEventListener('click', (e) => {
+    inputValue = e.target.textContent;
+    displayTags.innerHTML += `<div class="tags tags_ustensil active">
+          <p class="tag_text">${e.target.textContent}</p>
+          <button class="btn_close">
+            <i class="fas fa-times-circle"></i>
+          </button>
+        </div>`;
+    filterResult();
+    closeUtensilList();
+    closeTag();
+  });
+});
 
 //fermeture des tags ouverts
 function closeTag() {
@@ -302,6 +312,7 @@ function closeTag() {
     tag.addEventListener('click', (e) => {
       console.log(e.target);
       tag.remove();
+      displayReset();
     });
   });
 }
@@ -310,91 +321,100 @@ function closeTag() {
 
 mainSearch.addEventListener('input', (e) => {
   inputValue = e.target.value;
-  filterInput();
-});
-
-//fonction des input qui filtre les recettes en fonction des lettres tapées
-function filterInput() {
-  // Si 3 lettres ou plus sont tapées et rencontrent une condornance dans le tableau recipes, on affiche les recettes correspondantes
   if (inputValue.length >= 3) {
-    filterResult = recipes.filter(
-      (result) =>
-        result.name.toLowerCase().includes(inputValue.toLowerCase()) ||
-        result.appliance.toLowerCase().includes(inputValue.toLowerCase()) ||
-        result.ustensils.find((ustensil) =>
-          ustensil.toLowerCase().includes(inputValue.toLowerCase())
-        ) ||
-        result.ingredients.find((ingredientArray) =>
-          ingredientArray.ingredient
-            .toLowerCase()
-            .includes(inputValue.toLowerCase())
-        ) ||
-        result.description.toLowerCase().includes(inputValue.toLowerCase())
-    );
-
-    recettes.innerHTML = '';
-    displayRecipes(filterResult);
-
-    //On déclare 3 variables pour chaque dropdown en tableaux vides pour les remplir avec les résultats du filtre pour chaque
-    let filterResultIngredient = [];
-    let filterResultAppliance = [];
-    let filterResultUstensils = [];
-    //On affiche dans les 3 dropdowns les ingrédients, appareils et ustensiles des recettes filtrées en vidant précédemment ceux-ci
-    dropdownIngredient.innerHTML = '';
-    dropdownAppliance.innerHTML = '';
-    dropdownUtensil.innerHTML = '';
-    filterResult.forEach((filteMainResultForDropdown) => {
-      //On accède à la liste de chaque ingrédient avec le foreach du résultat de la recherche, dans une variable on stocke l'enlèvement des doublons et la concatenations du nouveau résultat
-
-      filteMainResultForDropdown.ingredients.forEach((resultIngredient) => {
-        filterResultIngredient = [
-          ...new Set(
-            filterResultIngredient.concat(resultIngredient.ingredient)
-          ),
-        ].sort();
-      });
-      //On filtre le tableau sur les appareils puis ustensiles où on concanène le résultat dans un nouveau tableau stocké dans une variable en ayant retiré les doublons
-      filterResultAppliance = [
-        ...new Set(
-          filterResultAppliance.concat(filteMainResultForDropdown.appliance)
-        ),
-      ].sort();
-
-      filterResultUstensils = [
-        ...new Set(
-          filterResultUstensils.concat(filteMainResultForDropdown.ustensils)
-        ),
-      ].sort();
-    });
-    //On affiche le résultat de la recherche principale filtrée dans chaque dropdown
-    displayIngredientDropdown(filterResultIngredient);
-    displayApplianceDropdown(filterResultAppliance);
-    displayUstensilsDropdown(filterResultUstensils);
-    //Si les lettres entrées ne rencontrent aucune concordance on affiche un message d'erreur
-    if (filterResult.length == 0) {
-      recettes.innerHTML += `
-    <p class="name_site"> Aucune recette ne correspond à votre critère… vous pouvez chercher « tarte aux pommes », « poisson », etc </p>`;
-    }
-
+    filterResult();
     //Si l'input principal est vide alors on reconstruit la page à l'initial
   } else {
-    recettes.innerHTML = '';
-    displayRecipes(recipes);
-    dropdownIngredient.innerHTML = '';
-    displayIngredientDropdown(ingredientsListDropdown);
-    dropdownAppliance.innerHTML = '';
-    displayApplianceDropdown(appliancesListDropdown);
-    dropdownUtensil.innerHTML = '';
-    displayUstensilsDropdown(utensilsListDropdown);
+    displayReset();
   }
-  console.log(filterResult);
-}
+});
+function filterResult() {
+  filterMainResult = recipes.filter(
+    (result) =>
+      result.name.toLowerCase().includes(inputValue.toLowerCase()) ||
+      result.appliance.toLowerCase().includes(inputValue.toLowerCase()) ||
+      result.ustensils.find((ustensil) =>
+        ustensil.toLowerCase().includes(inputValue.toLowerCase())
+      ) ||
+      result.ingredients.find((ingredientArray) =>
+        ingredientArray.ingredient
+          .toLowerCase()
+          .includes(inputValue.toLowerCase())
+      ) ||
+      result.description.toLowerCase().includes(inputValue.toLowerCase())
+  );
+  console.log(filterMainResult);
+  recettes.innerHTML = '';
+  displayRecipes(filterMainResult);
 
-/*//Filtre des recettes par les inputs des dropdown
+  //On affiche dans les 3 dropdowns les ingrédients, appareils et ustensiles des recettes filtrées en vidant précédemment ceux-ci
+  dropdownIngredient.innerHTML = '';
+  dropdownAppliance.innerHTML = '';
+  dropdownUtensil.innerHTML = '';
+
+  filterMainResult.forEach((filteMainResultForDropdown) => {
+    //On accède à la liste de chaque ingrédient avec le foreach du résultat de la recherche, dans une variable on stocke l'enlèvement des doublons et la concatenations du nouveau résultat
+
+    filteMainResultForDropdown.ingredients.forEach((resultIngredient) => {
+      filterResultIngredient = [
+        ...new Set(filterResultIngredient.concat(resultIngredient.ingredient)),
+      ].sort();
+    });
+    //On filtre le tableau sur les appareils puis ustensiles où on concanène le résultat dans un nouveau tableau stocké dans une variable en ayant retiré les doublons
+    filterResultAppliance = [
+      ...new Set(
+        filterResultAppliance.concat(filteMainResultForDropdown.appliance)
+      ),
+    ].sort();
+
+    filterResultUstensils = [
+      ...new Set(
+        filterResultUstensils.concat(filteMainResultForDropdown.ustensils)
+      ),
+    ].sort();
+  });
+  //On affiche le résultat de la recherche principale filtrée dans chaque dropdown
+  displayIngredientDropdown(filterResultIngredient);
+  displayApplianceDropdown(filterResultAppliance);
+  displayUstensilsDropdown(filterResultUstensils);
+  //Si les lettres entrées ne rencontrent aucune concordance on affiche un message d'erreur
+  if (filterMainResult.length == 0) {
+    recettes.innerHTML += `
+  <p class="name_site"> Aucune recette ne correspond à votre critère… vous pouvez chercher « tarte aux pommes », « poisson », etc </p>`;
+  }
+}
+//fonction des input qui filtre les recettes en fonction des lettres tapées
+
+//Fonction qui reconstruit la page comme à l'arrivée sur celle-ci
+function displayReset() {
+  recettes.innerHTML = '';
+  displayRecipes(recipes);
+  dropdownIngredient.innerHTML = '';
+  displayIngredientDropdown(ingredientsListDropdown);
+  dropdownAppliance.innerHTML = '';
+  displayApplianceDropdown(appliancesListDropdown);
+  dropdownUtensil.innerHTML = '';
+  displayUstensilsDropdown(utensilsListDropdown);
+}
+let filterIngredientsSearchResult = [];
+console.log(filterMainResult);
+//Filtre des recettes par les inputs des dropdown
+filterIngredientsSearch.addEventListener('input', (e) => {
+  inputValue = e.target.value;
+  filterIngredientsSearchResult = filterMainResult.filter((result) =>
+    result.ingredients.find((ingredientArray) =>
+      ingredientArray.ingredient
+        .toLowerCase()
+        .includes(inputValue.toLowerCase())
+    )
+  );
+  console.log(filterIngredientsSearchResult);
+});
+/*
 filterIngredientsSearch.addEventListener('input', (e) => {
   inputValue = e.target.value;
   if (inputValue.length >= 3) {
-    filterResult = recipes.filter((result) =>
+    filterResult = filterMainResult.filter((result) =>
       result.ingredients.find((ingredientArray) =>
         ingredientArray.ingredient
           .toLowerCase()
