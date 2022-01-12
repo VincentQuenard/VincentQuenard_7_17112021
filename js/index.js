@@ -46,7 +46,7 @@ let filterResultUstensils = [];
 // variables recherche
 const mainSearch = document.querySelector('.main_search_filter');
 
-let filterMainResult = [...recipes];
+let filterMainResult = [];
 let inputValue = '';
 
 //On boucle pour parcourir toutes les recettes du tableau
@@ -262,13 +262,14 @@ displayIngredientsTag.forEach((displayIngredientTag) => {
   displayIngredientTag.addEventListener('click', (e) => {
     inputValue = e.target.textContent;
     console.log(e.target.textContent);
-    displayTags.innerHTML += `<div class="tags tags_ingredients active">
+    displayTags.innerHTML += `<div class="tags tags_ingredients">
           <p class="tag_text">${e.target.textContent}</p>
           <button class="btn_close">
             <i class="fas fa-times-circle"></i>
           </button>
         </div>`;
-    filterResult();
+    //filterResult();
+
     closeLingredientList();
     closeTag();
   });
@@ -277,7 +278,7 @@ displayIngredientsTag.forEach((displayIngredientTag) => {
 displayAppliancesTag.forEach((displayApplianceTag) => {
   displayApplianceTag.addEventListener('click', (e) => {
     inputValue = e.target.textContent;
-    displayTags.innerHTML += `<div class="tags tags_appliance active">
+    displayTags.innerHTML += `<div class="tags tags_appliance">
           <p class="tag_text">${e.target.textContent}</p>
           <button class="btn_close">
             <i class="fas fa-times-circle"></i>
@@ -292,7 +293,7 @@ displayAppliancesTag.forEach((displayApplianceTag) => {
 displayUtensilsTag.forEach((displayUtensilTag) => {
   displayUtensilTag.addEventListener('click', (e) => {
     inputValue = e.target.textContent;
-    displayTags.innerHTML += `<div class="tags tags_ustensil active">
+    displayTags.innerHTML += `<div class="tags tags_ustensil">
           <p class="tag_text">${e.target.textContent}</p>
           <button class="btn_close">
             <i class="fas fa-times-circle"></i>
@@ -312,7 +313,7 @@ function closeTag() {
     tag.addEventListener('click', (e) => {
       console.log(e.target);
       tag.remove();
-      displayReset();
+      //displayReset();
     });
   });
 }
@@ -320,7 +321,7 @@ function closeTag() {
 //Filtre principal
 
 mainSearch.addEventListener('input', (e) => {
-  inputValue = e.target.value;
+  inputValue = e.target.value.toLowerCase();
   if (inputValue.length >= 3) {
     filterResult();
     //Si l'input principal est vide alors on reconstruit la page à l'initial
@@ -328,20 +329,20 @@ mainSearch.addEventListener('input', (e) => {
     displayReset();
   }
 });
+
+//fonction des input qui filtre les recettes en fonction des lettres tapées
 function filterResult() {
   filterMainResult = recipes.filter(
     (result) =>
-      result.name.toLowerCase().includes(inputValue.toLowerCase()) ||
-      result.appliance.toLowerCase().includes(inputValue.toLowerCase()) ||
+      result.name.toLowerCase().includes(inputValue) ||
+      result.appliance.toLowerCase().includes(inputValue) ||
       result.ustensils.find((ustensil) =>
-        ustensil.toLowerCase().includes(inputValue.toLowerCase())
+        ustensil.toLowerCase().includes(inputValue)
       ) ||
       result.ingredients.find((ingredientArray) =>
-        ingredientArray.ingredient
-          .toLowerCase()
-          .includes(inputValue.toLowerCase())
+        ingredientArray.ingredient.toLowerCase().includes(inputValue)
       ) ||
-      result.description.toLowerCase().includes(inputValue.toLowerCase())
+      result.description.toLowerCase().includes(inputValue)
   );
   console.log(filterMainResult);
   recettes.innerHTML = '';
@@ -383,7 +384,6 @@ function filterResult() {
   <p class="name_site"> Aucune recette ne correspond à votre critère… vous pouvez chercher « tarte aux pommes », « poisson », etc </p>`;
   }
 }
-//fonction des input qui filtre les recettes en fonction des lettres tapées
 
 //Fonction qui reconstruit la page comme à l'arrivée sur celle-ci
 function displayReset() {
@@ -396,20 +396,32 @@ function displayReset() {
   dropdownUtensil.innerHTML = '';
   displayUstensilsDropdown(utensilsListDropdown);
 }
-let filterIngredientsSearchResult = [];
-console.log(filterMainResult);
-//Filtre des recettes par les inputs des dropdown
+let filterByIngredientsSearchResult = [];
+let thisIngredientName = [];
+//console.log(filterMainResult);
+//Filtre des recettes par les inputs des dropdown après filtre principal
 filterIngredientsSearch.addEventListener('input', (e) => {
-  inputValue = e.target.value;
-  filterIngredientsSearchResult = filterMainResult.filter((result) =>
+  // console.log(inputValue);
+  inputValue = e.target.value.toLowerCase();
+  filterByIngredientsSearchResult = filterMainResult.filter((result) =>
     result.ingredients.find((ingredientArray) =>
-      ingredientArray.ingredient
-        .toLowerCase()
-        .includes(inputValue.toLowerCase())
+      ingredientArray.ingredient.toLowerCase().includes(inputValue)
     )
   );
-  console.log(filterIngredientsSearchResult);
+
+  console.log(filterByIngredientsSearchResult);
+  filterByIngredientsSearchResult.forEach((filterArrayIngredients) => {
+    filterArrayIngredients.ingredients.forEach((thisIngredientsName) => {
+      // console.log(thisIngredientsName.ingredient);
+
+      thisIngredientName = [
+        ...new Set(thisIngredientName.concat(thisIngredientsName.ingredient)),
+      ].sort();
+    });
+  });
+  console.log(thisIngredientName);
 });
+
 /*
 filterIngredientsSearch.addEventListener('input', (e) => {
   inputValue = e.target.value;
