@@ -357,10 +357,12 @@ function filterResult() {
     //On accède à la liste de chaque ingrédient avec le foreach du résultat de la recherche, dans une variable on stocke l'enlèvement des doublons et la concatenations du nouveau résultat
 
     filteMainResultForDropdown.ingredients.forEach((resultIngredient) => {
+      //  console.log(resultIngredient.ingredient);
       filterResultIngredient = [
         ...new Set(filterResultIngredient.concat(resultIngredient.ingredient)),
       ].sort();
     });
+    //   console.log(filterResultIngredient);
     //On filtre le tableau sur les appareils puis ustensiles où on concanène le résultat dans un nouveau tableau stocké dans une variable en ayant retiré les doublons
     filterResultAppliance = [
       ...new Set(
@@ -374,6 +376,7 @@ function filterResult() {
       ),
     ].sort();
   });
+
   //On affiche le résultat de la recherche principale filtrée dans chaque dropdown
   displayIngredientDropdown(filterResultIngredient);
   displayApplianceDropdown(filterResultAppliance);
@@ -396,9 +399,14 @@ function displayReset() {
   dropdownUtensil.innerHTML = '';
   displayUstensilsDropdown(utensilsListDropdown);
 }
+
+//recherche secondaire après premier filtrage input principal
 let filterByIngredientsSearchResult = [];
+let filterByApplianceSearchResult = [];
+let filterByUstensilesSearchResult = [];
 let thisIngredientName = [];
 //console.log(filterMainResult);
+
 //Filtre des recettes par les inputs des dropdown après filtre principal
 filterIngredientsSearch.addEventListener('input', (e) => {
   // console.log(inputValue);
@@ -412,14 +420,32 @@ filterIngredientsSearch.addEventListener('input', (e) => {
   console.log(filterByIngredientsSearchResult);
   filterByIngredientsSearchResult.forEach((filterArrayIngredients) => {
     filterArrayIngredients.ingredients.forEach((thisIngredientsName) => {
-      // console.log(thisIngredientsName.ingredient);
+      console.log(thisIngredientsName.ingredient);
 
-      thisIngredientName = [
+      /*thisIngredientName = [
         ...new Set(thisIngredientName.concat(thisIngredientsName.ingredient)),
-      ].sort();
+      ].sort();*/
     });
+    //  displayIngredientDropdown(thisIngredientName);
   });
-  console.log(thisIngredientName);
+});
+
+filterApplianceSearch.addEventListener('input', (e) => {
+  inputValue = e.target.value.toLowerCase();
+  filterByApplianceSearchResult = filterMainResult.filter((result) =>
+    result.appliance.toLowerCase().includes(inputValue)
+  );
+  console.log(filterByApplianceSearchResult);
+});
+
+filterUtensilSearch.addEventListener('input', (e) => {
+  inputValue = e.target.value.toLowerCase();
+  filterByUstensilesSearchResult = filterMainResult.filter((result) =>
+    result.ustensils.find((ustensil) =>
+      ustensil.toLowerCase().includes(inputValue)
+    )
+  );
+  console.log(filterByUstensilesSearchResult);
 });
 
 /*
