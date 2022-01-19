@@ -5,6 +5,8 @@ import { recipes } from './recipes.js';
 
 // Container pour injecter les recettes
 let recettes = document.querySelector('.cards');
+// Container pour injecter les tags
+let displayTags = document.querySelector('.tags_selection');
 
 //Constantes pour afficher et gérer les dropdown
 const dropdownIngredient = document.querySelector('.filter_ingredients_list');
@@ -231,7 +233,7 @@ function removeDuplicate(recipes) {
 }
 removeDuplicate(recipes);
 
-// fonction qui va renvoyer une liste non ordonnée en fonction des différentes données de chaque lignes des 3 tableaux
+// fonction qui va renvoyer une liste non ordonnée en fonction des différentes données de chaque lignes des 3 tableaux et filtrer les recettes au clic ainsi que les contenus des dropdowns
 function displayIngredientDropdown(ingredientsListDropdown) {
   ingredientsListDropdown.forEach((ingredientListDropdown) => {
     dropdownIngredient.innerHTML += `<li class="ingredients_list" tabindex="0">${ingredientListDropdown}</li>`;
@@ -240,19 +242,18 @@ function displayIngredientDropdown(ingredientsListDropdown) {
   displayIngredientsTag.forEach((displayIngredientTag) => {
     displayIngredientTag.addEventListener('click', (e) => {
       inputValue = e.target.textContent;
-      console.log(e.target.textContent);
+
       displayTags.innerHTML += `<div class="tags tags_ingredients">
             <p class="tag_text">${e.target.textContent}</p>
             <button class="btn_close">
               <i class="fas fa-times-circle"></i>
             </button>
           </div>`;
-      filterResult(filterMainResult);
-
+      filterTagIngredientResult(filterMainResult);
       closeLingredientList();
       closeTag();
     });
-    console.log(filterMainResult);
+    // console.log(filterMainResult);
   });
 }
 displayIngredientDropdown(ingredientsListDropdown);
@@ -271,7 +272,7 @@ function displayApplianceDropdown(appliancesListDropdown) {
               <i class="fas fa-times-circle"></i>
             </button>
           </div>`;
-      filterResult(filterMainResult);
+      filterTagApplianceResult(filterMainResult);
       closeApplicanceList();
       closeTag();
     });
@@ -293,24 +294,13 @@ function displayUstensilsDropdown(utensilsListDropdown) {
               <i class="fas fa-times-circle"></i>
             </button>
           </div>`;
-      filterResult(filterMainResult);
+      filterTagUstensilsResult(filterMainResult);
       closeUtensilList();
       closeTag();
     });
   });
 }
 displayUstensilsDropdown(utensilsListDropdown);
-
-let displayTags = document.querySelector('.tags_selection');
-
-
-
-
-//fonction pour afficher en tags les élements cliqués des dropdown
-
-
-
-
 
 //fermeture des tags ouverts
 function closeTag() {
@@ -322,6 +312,7 @@ function closeTag() {
   tags.forEach((tag) => {
     tag.addEventListener('click', (e) => {
       tag.remove();
+      // filterResult(filterMainResult);
       // displayReset();
     });
   });
@@ -331,6 +322,7 @@ function closeTag() {
 
 mainSearch.addEventListener('input', (e) => {
   inputValue = e.target.value;
+  filterMainResult = [...recipes];
   if (inputValue.length >= 3) {
     filterResult(filterMainResult);
     //Si l'input principal est vide alors on reconstruit la page à l'initial
@@ -397,9 +389,49 @@ function filterDropdown(filterMainResult) {
   displayUstensilsDropdown(filterResultUstensils);
 }
 
-//On affiche le résultat de la recherche principale filtrée dans chaque dropdown
+function filterTagIngredientResult(recipes) {
+  filterMainResult = recipes.filter((result) =>
+    result.ingredients.find((ingredientArray) =>
+      ingredientArray.ingredient
+        .toLowerCase()
+        .includes(inputValue.toLowerCase())
+    )
+  );
+  recettes.innerHTML = '';
+  displayRecipes(filterMainResult);
+  filterDropdown(filterMainResult);
+  if (filterMainResult.length == 0) {
+    recettes.innerHTML += `
+  <p class="name_site"> Aucune recette ne correspond à votre critère… vous pouvez chercher « tarte aux pommes », « poisson », etc </p>`;
+  }
+}
 
-//Si les lettres entrées ne rencontrent aucune concordance on affiche un message d'erreur
+function filterTagApplianceResult(recipes) {
+  filterMainResult = recipes.filter((result) =>
+    result.appliance.toLowerCase().includes(inputValue.toLowerCase())
+  );
+  recettes.innerHTML = '';
+  displayRecipes(filterMainResult);
+  filterDropdown(filterMainResult);
+  if (filterMainResult.length == 0) {
+    recettes.innerHTML += `
+  <p class="name_site"> Aucune recette ne correspond à votre critère… vous pouvez chercher « tarte aux pommes », « poisson », etc </p>`;
+  }
+}
+function filterTagUstensilsResult(recipes) {
+  filterMainResult = recipes.filter((result) =>
+    result.ustensils.find((ustensil) =>
+      ustensil.toLowerCase().includes(inputValue.toLowerCase())
+    )
+  );
+  recettes.innerHTML = '';
+  displayRecipes(filterMainResult);
+  filterDropdown(filterMainResult);
+  if (filterMainResult.length == 0) {
+    recettes.innerHTML += `
+  <p class="name_site"> Aucune recette ne correspond à votre critère… vous pouvez chercher « tarte aux pommes », « poisson », etc </p>`;
+  }
+}
 
 //Fonction qui reconstruit la page comme à l'arrivée sur celle-ci
 function displayReset() {
