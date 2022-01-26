@@ -36,9 +36,6 @@ const arrowIngredients = document.querySelector('.arrow_ingredient');
 const arrowAppliance = document.querySelector('.arrow_appliance');
 const arrowUtensil = document.querySelector('.arrow_utensil');
 
-// On déclare une variable avec une chaine vide qu'on va remplir en fonction des données reçues dans la boucle pour afficher les ingrédients
-let displayIngredients = '';
-
 //  variables de tableaux vides, remplis pour entrées sans doublons pour affichage des dropdown
 let ingredientsListDropdown = [];
 let appliancesListDropdown = [];
@@ -50,7 +47,6 @@ let filterResultUstensils = [];
 
 // variables recherche
 const mainSearch = document.querySelector('.main_search_filter');
-
 let filterMainResult = [...recipes];
 let inputValue = '';
 
@@ -91,11 +87,9 @@ function displayRecipes(recipes) {
       } else if (quantite && unite == undefined) {
         displayIngredients += `<li>${ingredient}</li>`;
       }
-
-      //dropdownIngredient.innerHTML += `<li>${ingredient}</li>`;
     }
 
-    //fonction qui va créer chaque carte de recette à chaque tour de boucle for
+    //code qui va créer chaque carte de recette à chaque tour de boucle for sur le tableau recipes
 
     recettes.innerHTML += ` <article class="card" data-id="${recipes[i].id}">
           <div class="card_header">
@@ -249,9 +243,10 @@ function displayIngredientDropdown(ingredientsListDropdown) {
               <i class="fas fa-times-circle"></i>
             </button>
           </div>`;
-      filterTagIngredientResult(filterMainResult);
+      filterIngredientResult(filterMainResult);
       closeLingredientList();
       closeTag();
+      console.log(filterMainResult);
     });
     // console.log(filterMainResult);
   });
@@ -272,7 +267,7 @@ function displayApplianceDropdown(appliancesListDropdown) {
               <i class="fas fa-times-circle"></i>
             </button>
           </div>`;
-      filterTagApplianceResult(filterMainResult);
+      filterApplianceResult(filterMainResult);
       closeApplicanceList();
       closeTag();
     });
@@ -294,7 +289,7 @@ function displayUstensilsDropdown(utensilsListDropdown) {
               <i class="fas fa-times-circle"></i>
             </button>
           </div>`;
-      filterTagUstensilsResult(filterMainResult);
+      filterUstensilsResult(filterMainResult);
       closeUtensilList();
       closeTag();
     });
@@ -305,15 +300,21 @@ displayUstensilsDropdown(utensilsListDropdown);
 //fermeture des tags ouverts
 function closeTag() {
   let tags = document.querySelectorAll('.tags');
-  /* console.log(tags.length == 1 && mainSearch.textContent == '');
-  if (tags.length == 1 && mainSearch.textContent == '') {
-    displayRecipes(recipes);
-  }*/
+  console.log(displayTags.length == 1 && mainSearch.textContent == '');
+
+  if (tags.length == 0 && mainSearch.textContent == '') {
+    location.reload();
+  }
   tags.forEach((tag) => {
     tag.addEventListener('click', (e) => {
       tag.remove();
-      // filterResult(filterMainResult);
-      // displayReset();
+      recettes.innerHTML = '';
+      dropdownIngredient.innerHTML = '';
+      dropdownAppliance.innerHTML = '';
+      dropdownUtensil.innerHTML = '';
+      console.log(filterMainResult);
+      displayReset();
+      filterResult(filterMainResult);
     });
   });
 }
@@ -329,17 +330,18 @@ mainSearch.addEventListener('input', (e) => {
   } else {
     displayReset();
   }
+  console.log(filterMainResult);
 });
 
-//fonction des input qui filtre les recettes en fonction des lettres tapées
+//fonction de l'input principal qui filtre le tableau selon le titre,les ingrédients ou la description en fonction des lettres tapées 
 function filterResult(recipes) {
   filterMainResult = recipes.filter(
     (result) =>
       result.name.toLowerCase().includes(inputValue.toLowerCase()) ||
-      result.appliance.toLowerCase().includes(inputValue.toLowerCase()) ||
+     /* result.appliance.toLowerCase().includes(inputValue.toLowerCase()) ||
       result.ustensils.find((ustensil) =>
         ustensil.toLowerCase().includes(inputValue.toLowerCase())
-      ) ||
+      ) ||*/
       result.ingredients.find((ingredientArray) =>
         ingredientArray.ingredient
           .toLowerCase()
@@ -347,6 +349,9 @@ function filterResult(recipes) {
       ) ||
       result.description.toLowerCase().includes(inputValue.toLowerCase())
   );
+  resultFilter(filterMainResult);
+}
+function resultFilter(filterMainResult) {
   recettes.innerHTML = '';
   displayRecipes(filterMainResult);
   filterDropdown(filterMainResult);
@@ -355,18 +360,21 @@ function filterResult(recipes) {
   <p class="name_site"> Aucune recette ne correspond à votre critère… vous pouvez chercher « tarte aux pommes », « poisson », etc </p>`;
   }
 }
-
 function filterDropdown(filterMainResult) {
+  //On s'assure que les dropdown sont bien vide lorsqu'on éxécute la fonction
+  filterResultIngredient = [];
+  filterResultAppliance = [];
+  filterResultUstensils = [];
   filterMainResult.forEach((filteMainResultForDropdown) => {
     //On accède à la liste de chaque ingrédient avec le foreach du résultat de la recherche, dans une variable on stocke l'enlèvement des doublons et la concatenations du nouveau résultat
 
     filteMainResultForDropdown.ingredients.forEach((resultIngredient) => {
-      //  console.log(resultIngredient.ingredient);
+      
       filterResultIngredient = [
         ...new Set(filterResultIngredient.concat(resultIngredient.ingredient)),
       ].sort();
     });
-    //   console.log(filterResultIngredient);
+    
     //On filtre le tableau sur les appareils puis ustensiles où on concanène le résultat dans un nouveau tableau stocké dans une variable en ayant retiré les doublons
     filterResultAppliance = [
       ...new Set(
@@ -388,8 +396,8 @@ function filterDropdown(filterMainResult) {
   displayApplianceDropdown(filterResultAppliance);
   displayUstensilsDropdown(filterResultUstensils);
 }
-
-function filterTagIngredientResult(recipes) {
+//fonctions qui filtrent en fonction des ingrédients, des appareils ou ustensiles correspondant à la recherche de l'utilisateur au clic
+function filterIngredientResult(recipes) {
   filterMainResult = recipes.filter((result) =>
     result.ingredients.find((ingredientArray) =>
       ingredientArray.ingredient
@@ -397,40 +405,22 @@ function filterTagIngredientResult(recipes) {
         .includes(inputValue.toLowerCase())
     )
   );
-  recettes.innerHTML = '';
-  displayRecipes(filterMainResult);
-  filterDropdown(filterMainResult);
-  if (filterMainResult.length == 0) {
-    recettes.innerHTML += `
-  <p class="name_site"> Aucune recette ne correspond à votre critère… vous pouvez chercher « tarte aux pommes », « poisson », etc </p>`;
-  }
+  resultFilter(filterMainResult);
 }
 
-function filterTagApplianceResult(recipes) {
+function filterApplianceResult(recipes) {
   filterMainResult = recipes.filter((result) =>
     result.appliance.toLowerCase().includes(inputValue.toLowerCase())
   );
-  recettes.innerHTML = '';
-  displayRecipes(filterMainResult);
-  filterDropdown(filterMainResult);
-  if (filterMainResult.length == 0) {
-    recettes.innerHTML += `
-  <p class="name_site"> Aucune recette ne correspond à votre critère… vous pouvez chercher « tarte aux pommes », « poisson », etc </p>`;
-  }
+  resultFilter(filterMainResult);
 }
-function filterTagUstensilsResult(recipes) {
+function filterUstensilsResult(recipes) {
   filterMainResult = recipes.filter((result) =>
     result.ustensils.find((ustensil) =>
       ustensil.toLowerCase().includes(inputValue.toLowerCase())
     )
   );
-  recettes.innerHTML = '';
-  displayRecipes(filterMainResult);
-  filterDropdown(filterMainResult);
-  if (filterMainResult.length == 0) {
-    recettes.innerHTML += `
-  <p class="name_site"> Aucune recette ne correspond à votre critère… vous pouvez chercher « tarte aux pommes », « poisson », etc </p>`;
-  }
+  resultFilter(filterMainResult);
 }
 
 //Fonction qui reconstruit la page comme à l'arrivée sur celle-ci
@@ -446,56 +436,88 @@ function displayReset() {
 }
 
 //recherche secondaire après premier filtrage input principal
-let filterByIngredientsSearchResult = [];
-let filterByApplianceSearchResult = [];
-let filterByUstensilesSearchResult = [];
-let thisIngredientName = [];
-//console.log(filterMainResult);
+//Variables pour le nouveau tableau au filtre par l'input secondaire de chaque dropdown
+let filterByIngredientsInput = [];
+let filterByApplianceInput = [];
+let filterByUstensilesInput = [];
+//Variables pour tableau ne contenant le résultat que des ingrédients, appareils ou ustensiles
+let resultFilterIngredient = [];
+let resultFilterAppliance = [];
+let resultFilterUstensil = [];
 
 //Filtre des recettes par les inputs des dropdown après filtre principal
 filterIngredientsSearch.addEventListener('input', (e) => {
-  // console.log(inputValue);
   inputValue = e.target.value;
-  filterByIngredientsSearchResult = filterMainResult.filter((result) =>
+  //on filtre le tableau de recette par les ingredients
+  filterByIngredientsInput = filterMainResult.filter((result) =>
     result.ingredients.find((ingredientArray) =>
       ingredientArray.ingredient
         .toLowerCase()
         .includes(inputValue.toLowerCase())
     )
   );
-
-  console.log(filterByIngredientsSearchResult);
-  filterByIngredientsSearchResult.forEach((filterArrayIngredients) => {
-    filterArrayIngredients.ingredients.forEach((thisIngredientsName) => {
-      console.log(thisIngredientsName.ingredient);
-
-      thisIngredientName = [
-        ...new Set(thisIngredientName.concat(thisIngredientsName.ingredient)),
+  //on s'assure que le tableau à remplir est bien vide
+  resultFilterIngredient = [];
+  //pour chaque résultat du filtre on enlève les doublons et on regroupe en un seul tableau les ingrédients
+  filterByIngredientsInput.forEach((filterArrayIngredients) => {
+    filterArrayIngredients.ingredients.forEach((resultFilterIngredients) => {
+      resultFilterIngredient = [
+        ...new Set(
+          resultFilterIngredient.concat(resultFilterIngredients.ingredient)
+        ),
       ].sort();
     });
-    // console.log(thisIngredientName);
   });
+  //on déclare une variable qui va renvoyer seulement le résultat des ingrédients correspondant à la recherche
+  let filterIngredientWord = resultFilterIngredient.filter((word) =>
+    word.toLowerCase().includes(inputValue.toLowerCase())
+  );
+  //on vide le dropdown et on affiche à l'intérieur le résultat de la recherche, de la correspondance
+  dropdownIngredient.innerHTML = '';
+  displayIngredientDropdown(filterIngredientWord);
 });
-
-/*dropdownIngredient.innerHTML = '';
-displayIngredientDropdown(thisIngredientName);*/
-
+//On répète la même logique de l'input ingredient sur ceux des appareils et ustensiles
 filterApplianceSearch.addEventListener('input', (e) => {
   inputValue = e.target.value;
-  filterByApplianceSearchResult = filterMainResult.filter((result) =>
+  filterByApplianceInput = filterMainResult.filter((result) =>
     result.appliance.toLowerCase().includes(inputValue.toLowerCase())
   );
-  console.log(filterByApplianceSearchResult);
+  console.log(filterByApplianceInput);
+  resultFilterAppliance = [];
+  filterByApplianceInput.forEach((resultFilterAppliances) => {
+    resultFilterAppliance = [
+      ...new Set(
+        resultFilterAppliance.concat(resultFilterAppliances.appliance)
+      ),
+    ].sort();
+  });
+  let filterApplianceWord = resultFilterAppliance.filter((word) =>
+    word.toLowerCase().includes(inputValue.toLowerCase())
+  );
+
+  dropdownAppliance.innerHTML = '';
+  displayApplianceDropdown(filterApplianceWord);
 });
 
 filterUtensilSearch.addEventListener('input', (e) => {
   inputValue = e.target.value;
-  filterByUstensilesSearchResult = filterMainResult.filter((result) =>
+  filterByUstensilesInput = filterMainResult.filter((result) =>
     result.ustensils.find((ustensil) =>
       ustensil.toLowerCase().includes(inputValue.toLowerCase())
     )
   );
-  console.log(filterByUstensilesSearchResult);
+
+  filterByUstensilesInput.forEach((resultFilterUstensils) => {
+    resultFilterUstensil = [
+      ...new Set(resultFilterUstensil.concat(resultFilterUstensils.ustensils)),
+    ].sort();
+  });
+  let filterUstensilWord = resultFilterUstensil.filter((word) =>
+    word.toLowerCase().includes(inputValue.toLowerCase())
+  );
+
+  dropdownUtensil.innerHTML = '';
+  displayUstensilsDropdown(filterUstensilWord);
 });
 
 /*Idée vider inputs :
@@ -505,83 +527,3 @@ if (filterIngredientsSearch.value.length || filterApplianceSearch.value.length
     filterApplianceSearch.value = '';
   filterUtensilSearch.value = '';
 }*/
-
-/*
-filterIngredientsSearch.addEventListener('input', (e) => {
-  inputValue = e.target.value;
-  if (inputValue.length >= 3) {
-    filterResult = filterMainResult.filter((result) =>
-      result.ingredients.find((ingredientArray) =>
-        ingredientArray.ingredient
-          .toLowerCase()
-          .includes(inputValue.toLowerCase())
-      )
-    );
-    console.log(filterResult);
-    recettes.innerHTML = '';
-    displayRecipes(filterResult);
-    //FILTRE OK MAIS RETIRER LES DOUBLONS ET FILTER ENSUITE LES 2 DROPDOWNS RESTANTS
-    dropdownIngredient.innerHTML = '';
-
-    filterResult.forEach((resultIngredients) => {
-      resultIngredients.ingredients.forEach((resultIngredient) => {
-        filterResultIngredient.push(resultIngredient.ingredient);
-      });
-      filterResultIngredient = [...new Set(filterResultIngredient)].sort();
-    });
-
-    dropdownAppliance.innerHTML = '';
-    dropdownUtensil.innerHTML = '';
-    displayIngredientDropdown(filterResultIngredient);
-
-    if (filterResult.length == 0) {
-      recettes.innerHTML += `
-    <p class="name_site"> Aucune recette ne correspond à votre critère… vous pouvez chercher « tarte aux pommes », « poisson », etc </p>`;
-    }
-  } else {
-    recettes.innerHTML = '';
-    displayRecipes(recipes);
-    dropdownIngredient.innerHTML = '';
-    displayIngredientDropdown(ingredientsListDropdown);
-  }
-});
-filterApplianceSearch.addEventListener('input', (e) => {
-  inputValue = e.target.value;
-  if (inputValue.length >= 3) {
-    filterResult = recipes.filter((result) =>
-      result.appliance.toLowerCase().includes(inputValue.toLowerCase())
-    );
-    console.log(filterResult);
-    recettes.innerHTML = '';
-    displayRecipes(filterResult);
-
-    if (filterResult.length == 0) {
-      recettes.innerHTML += `
-    <p class="name_site"> Aucune recette ne correspond à votre critère… vous pouvez chercher « tarte aux pommes », « poisson », etc </p>`;
-    }
-  } else {
-    recettes.innerHTML = '';
-    displayRecipes(recipes);
-  }
-});
-filterUtensilSearch.addEventListener('input', (e) => {
-  inputValue = e.target.value;
-  if (inputValue.length >= 3) {
-    filterResult = recipes.filter((result) =>
-      result.ustensils.find((ustensil) =>
-        ustensil.toLowerCase().includes(inputValue.toLowerCase())
-      )
-    );
-    console.log(filterResult);
-    recettes.innerHTML = '';
-    displayRecipes(filterResult);
-
-    if (filterResult.length == 0) {
-      recettes.innerHTML += `
-    <p class="name_site"> Aucune recette ne correspond à votre critère… vous pouvez chercher « tarte aux pommes », « poisson », etc </p>`;
-    }
-  } else {
-    recettes.innerHTML = '';
-    displayRecipes(recipes);
-  }
-});*/
