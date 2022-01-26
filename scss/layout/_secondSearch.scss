@@ -101,6 +101,15 @@ h2 {
   }
   .filter_secondary {
     margin-bottom: 1.5rem;
+    & input {
+      font-size: 0.65rem;
+    }
+  }
+  .lists {
+    font-size: 0.9rem;
+  }
+  .filters {
+    margin-bottom: 0.1rem;
   }
 }
 @media (max-width: 935px) {
