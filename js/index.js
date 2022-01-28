@@ -237,16 +237,18 @@ function displayIngredientDropdown(ingredientsListDropdown) {
     displayIngredientTag.addEventListener('click', (e) => {
       inputValue = e.target.textContent;
 
-      displayTags.innerHTML += `<div class="tags tags_ingredients">
-            <p class="tag_text">${e.target.textContent}</p>
+      displayTags.innerHTML += `<div class="tags tags_ingredients active">
+            <p class="tag_text">${inputValue}</p>
             <button class="btn_close">
               <i class="fas fa-times-circle"></i>
             </button>
           </div>`;
+         
       filterIngredientResult(filterMainResult);
       closeLingredientList();
       closeTag();
       console.log(filterMainResult);
+     
     });
     // console.log(filterMainResult);
   });
@@ -262,7 +264,7 @@ function displayApplianceDropdown(appliancesListDropdown) {
     displayApplianceTag.addEventListener('click', (e) => {
       inputValue = e.target.textContent;
       displayTags.innerHTML += `<div class="tags tags_appliance">
-            <p class="tag_text">${e.target.textContent}</p>
+            <p class="tag_text">${inputValue}</p>
             <button class="btn_close">
               <i class="fas fa-times-circle"></i>
             </button>
@@ -284,7 +286,7 @@ function displayUstensilsDropdown(utensilsListDropdown) {
     displayUtensilTag.addEventListener('click', (e) => {
       inputValue = e.target.textContent;
       displayTags.innerHTML += `<div class="tags tags_ustensil">
-            <p class="tag_text">${e.target.textContent}</p>
+            <p class="tag_text">${inputValue}</p>
             <button class="btn_close">
               <i class="fas fa-times-circle"></i>
             </button>
@@ -296,18 +298,19 @@ function displayUstensilsDropdown(utensilsListDropdown) {
   });
 }
 displayUstensilsDropdown(utensilsListDropdown);
-
+let tags = document.querySelectorAll('.tags');
 //fermeture des tags ouverts
-function closeTag() {
+/*function closeTag() {
   let tags = document.querySelectorAll('.tags');
-  console.log(displayTags.length == 1 && mainSearch.textContent == '');
-
-  if (tags.length == 0 && mainSearch.textContent == '') {
+  console.log(tags.length == 1 && mainSearch.textContent == '');
+ 
+  if (tags.length == 1 && mainSearch.textContent == '') {
     location.reload();
   }
   tags.forEach((tag) => {
     tag.addEventListener('click', (e) => {
       tag.remove();
+      console.log(displayTags.length)
       recettes.innerHTML = '';
       dropdownIngredient.innerHTML = '';
       dropdownAppliance.innerHTML = '';
@@ -317,6 +320,26 @@ function closeTag() {
       filterResult(filterMainResult);
     });
   });
+}*/
+
+
+function closeTag() {
+  let crosses = document.querySelectorAll('.btn_close')
+  let tags = document.querySelectorAll('.tags');
+  
+  console.log(tags.length)
+for (let cross = 0; cross < crosses.length; cross++){
+  crosses[cross].addEventListener('click', (function(e){
+    console.log(e.target.value)
+    this.parentElement.remove()
+    console.log(tags.length)
+   /* if(tags.length ==0){
+      displayReset()
+    }*/
+    
+  }))
+}
+
 }
 
 //Filtre principal
