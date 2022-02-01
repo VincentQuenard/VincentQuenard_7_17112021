@@ -68,7 +68,7 @@ function displayRecipes(recipes) {
       const quantite = ingredientDetail[j].quantity;
 
       //On récupère les données unit pour chaque recette
-      let unite = ingredientDetail[j].unit;
+       let unite = ingredientDetail[j].unit;
 
       // On réduit le nombre de charactères pour les unités afin de prendre moin de place à l'affichage
       if (unite === 'grammes') {
@@ -84,7 +84,7 @@ function displayRecipes(recipes) {
         displayIngredients += `<li>${ingredient} : ${quantite}${unite}</li>`;
       } else if (quantite != undefined && unite == undefined) {
         displayIngredients += `<li>${ingredient}: ${quantite}</li>`;
-      } else if (quantite && unite == undefined) {
+      } else {
         displayIngredients += `<li>${ingredient}</li>`;
       }
     }
@@ -243,12 +243,11 @@ function displayIngredientDropdown(ingredientsListDropdown) {
               <i class="fas fa-times-circle"></i>
             </button>
           </div>`;
-         
+
       filterIngredientResult(filterMainResult);
       closeLingredientList();
       closeTag();
       console.log(filterMainResult);
-     
     });
     // console.log(filterMainResult);
   });
@@ -298,7 +297,7 @@ function displayUstensilsDropdown(utensilsListDropdown) {
   });
 }
 displayUstensilsDropdown(utensilsListDropdown);
-let tags = document.querySelectorAll('.tags');
+let tags = '';
 //fermeture des tags ouverts
 /*function closeTag() {
   let tags = document.querySelectorAll('.tags');
@@ -317,30 +316,49 @@ let tags = document.querySelectorAll('.tags');
       dropdownUtensil.innerHTML = '';
       console.log(filterMainResult);
       displayReset();
-      filterResult(filterMainResult);
+      filterMainInputResult(filterMainResult);
     });
   });
 }*/
 
-
 function closeTag() {
-  let crosses = document.querySelectorAll('.btn_close')
-  let tags = document.querySelectorAll('.tags');
-  
-  console.log(tags.length)
-for (let cross = 0; cross < crosses.length; cross++){
-  crosses[cross].addEventListener('click', (function(e){
-    console.log(e.target.value)
-    this.parentElement.remove()
-    console.log(tags.length)
-   /* if(tags.length ==0){
-      displayReset()
-    }*/
-    
-  }))
+  let crosses = document.querySelectorAll('.btn_close');
+  for (let cross = 0; cross < crosses.length; cross++) {
+    crosses[cross].addEventListener('click', function (e) {
+      console.log(e.target);
+      this.parentElement.remove();
+      tags = document.querySelectorAll('.tags');
+      filterMainResult = [...recipes];
+      if (tags.length == 0) {
+        displayReset(recipes);
+      } else {
+       filterByTag(filterMainResult)
+      }
+    });
+  }
 }
 
+function filterByTag(recipes){
+  recettes.innerHTML = '';
+  tags.forEach((tag) => {
+    filterMainResult = recipes.filter((result) =>
+      result.ingredients.find((ingredientArray) =>
+        ingredientArray.ingredient
+          .toLowerCase()
+          .includes(tag.innerText.toLowerCase())
+      )||
+       result.appliance.toLowerCase().includes(tag.innerText.toLowerCase()) ||
+      result.ustensils.find((ustensil) =>
+        ustensil.toLowerCase().includes(tag.innerText.toLowerCase())
+      ) 
+    );
+    resultFilter(filterMainResult);
+  });
+
+  console.log(filterMainResult);
 }
+
+
 
 //Filtre principal
 
@@ -348,20 +366,19 @@ mainSearch.addEventListener('input', (e) => {
   inputValue = e.target.value;
   filterMainResult = [...recipes];
   if (inputValue.length >= 3) {
-    filterResult(filterMainResult);
+    filterMainInputResult(filterMainResult);
     //Si l'input principal est vide alors on reconstruit la page à l'initial
   } else {
     displayReset();
   }
-  console.log(filterMainResult);
 });
 
-//fonction de l'input principal qui filtre le tableau selon le titre,les ingrédients ou la description en fonction des lettres tapées 
-function filterResult(recipes) {
+//fonction de l'input principal qui filtre le tableau selon le titre,les ingrédients ou la description en fonction des lettres tapées
+function filterMainInputResult(recipes) {
   filterMainResult = recipes.filter(
     (result) =>
       result.name.toLowerCase().includes(inputValue.toLowerCase()) ||
-     /* result.appliance.toLowerCase().includes(inputValue.toLowerCase()) ||
+      /* result.appliance.toLowerCase().includes(inputValue.toLowerCase()) ||
       result.ustensils.find((ustensil) =>
         ustensil.toLowerCase().includes(inputValue.toLowerCase())
       ) ||*/
@@ -392,12 +409,11 @@ function filterDropdown(filterMainResult) {
     //On accède à la liste de chaque ingrédient avec le foreach du résultat de la recherche, dans une variable on stocke l'enlèvement des doublons et la concatenations du nouveau résultat
 
     filteMainResultForDropdown.ingredients.forEach((resultIngredient) => {
-      
       filterResultIngredient = [
         ...new Set(filterResultIngredient.concat(resultIngredient.ingredient)),
       ].sort();
     });
-    
+
     //On filtre le tableau sur les appareils puis ustensiles où on concanène le résultat dans un nouveau tableau stocké dans une variable en ayant retiré les doublons
     filterResultAppliance = [
       ...new Set(
