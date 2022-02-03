@@ -68,7 +68,7 @@ function displayRecipes(recipes) {
       const quantite = ingredientDetail[j].quantity;
 
       //On récupère les données unit pour chaque recette
-       let unite = ingredientDetail[j].unit;
+      let unite = ingredientDetail[j].unit;
 
       // On réduit le nombre de charactères pour les unités afin de prendre moin de place à l'affichage
       if (unite === 'grammes') {
@@ -298,59 +298,54 @@ function displayUstensilsDropdown(utensilsListDropdown) {
 }
 displayUstensilsDropdown(utensilsListDropdown);
 let tags = '';
-//fermeture des tags ouverts
-/*function closeTag() {
-  let tags = document.querySelectorAll('.tags');
-  console.log(tags.length == 1 && mainSearch.textContent == '');
- 
-  if (tags.length == 1 && mainSearch.textContent == '') {
-    location.reload();
-  }
-  tags.forEach((tag) => {
-    tag.addEventListener('click', (e) => {
-      tag.remove();
-      console.log(displayTags.length)
-      recettes.innerHTML = '';
-      dropdownIngredient.innerHTML = '';
-      dropdownAppliance.innerHTML = '';
-      dropdownUtensil.innerHTML = '';
-      console.log(filterMainResult);
-      displayReset();
-      filterMainInputResult(filterMainResult);
-    });
-  });
-}*/
 
 function closeTag() {
   let crosses = document.querySelectorAll('.btn_close');
   for (let cross = 0; cross < crosses.length; cross++) {
     crosses[cross].addEventListener('click', function (e) {
-      console.log(e.target);
       this.parentElement.remove();
       tags = document.querySelectorAll('.tags');
       filterMainResult = [...recipes];
-      if (tags.length == 0) {
+      if (tags.length == 0 && mainSearch.value.length == 0) {
         displayReset(recipes);
+      } else if (tags.length == 0 && mainSearch.value.length >= 1) {
+        filterMainResult = recipes.filter(
+          (result) =>
+            result.name
+              .toLowerCase()
+              .includes(mainSearch.value.toLowerCase()) ||
+            result.ingredients.find((ingredientArray) =>
+              ingredientArray.ingredient
+                .toLowerCase()
+                .includes(mainSearch.value.toLowerCase())
+            ) ||
+            result.description
+              .toLowerCase()
+              .includes(mainSearch.value.toLowerCase())
+        );
+        recettes.innerHTML = '';
+        displayRecipes(filterMainResult);
       } else {
-       filterByTag(filterMainResult)
+        filterByTag(filterMainResult);
       }
     });
   }
 }
 
-function filterByTag(recipes){
+function filterByTag(recipes) {
   recettes.innerHTML = '';
   tags.forEach((tag) => {
-    filterMainResult = recipes.filter((result) =>
-      result.ingredients.find((ingredientArray) =>
-        ingredientArray.ingredient
-          .toLowerCase()
-          .includes(tag.innerText.toLowerCase())
-      )||
-       result.appliance.toLowerCase().includes(tag.innerText.toLowerCase()) ||
-      result.ustensils.find((ustensil) =>
-        ustensil.toLowerCase().includes(tag.innerText.toLowerCase())
-      ) 
+    filterMainResult = recipes.filter(
+      (result) =>
+        result.ingredients.find((ingredientArray) =>
+          ingredientArray.ingredient
+            .toLowerCase()
+            .includes(tag.innerText.toLowerCase())
+        ) ||
+        result.appliance.toLowerCase().includes(tag.innerText.toLowerCase()) ||
+        result.ustensils.find((ustensil) =>
+          ustensil.toLowerCase().includes(tag.innerText.toLowerCase())
+        )
     );
     resultFilter(filterMainResult);
   });
@@ -358,15 +353,16 @@ function filterByTag(recipes){
   console.log(filterMainResult);
 }
 
-
-
 //Filtre principal
 
 mainSearch.addEventListener('input', (e) => {
   inputValue = e.target.value;
+  console.log(mainSearch.value.length);
   filterMainResult = [...recipes];
   if (inputValue.length >= 3) {
     filterMainInputResult(filterMainResult);
+    console.log(filterMainResult);
+    console.log(mainSearch.value.length);
     //Si l'input principal est vide alors on reconstruit la page à l'initial
   } else {
     displayReset();
@@ -378,10 +374,6 @@ function filterMainInputResult(recipes) {
   filterMainResult = recipes.filter(
     (result) =>
       result.name.toLowerCase().includes(inputValue.toLowerCase()) ||
-      /* result.appliance.toLowerCase().includes(inputValue.toLowerCase()) ||
-      result.ustensils.find((ustensil) =>
-        ustensil.toLowerCase().includes(inputValue.toLowerCase())
-      ) ||*/
       result.ingredients.find((ingredientArray) =>
         ingredientArray.ingredient
           .toLowerCase()
@@ -495,6 +487,7 @@ filterIngredientsSearch.addEventListener('input', (e) => {
         .includes(inputValue.toLowerCase())
     )
   );
+  console.log(filterMainResult);
   //on s'assure que le tableau à remplir est bien vide
   resultFilterIngredient = [];
   //pour chaque résultat du filtre on enlève les doublons et on regroupe en un seul tableau les ingrédients
