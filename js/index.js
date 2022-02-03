@@ -1,8 +1,6 @@
 //Importation du tableau des données à injecter
 import { recipes } from './recipes.js';
 
-//console.log(recipes);
-
 // Container pour injecter les recettes
 let recettes = document.querySelector('.cards');
 // Container pour injecter les tags
@@ -49,6 +47,7 @@ let filterResultUstensils = [];
 const mainSearch = document.querySelector('.main_search_filter');
 let filterMainResult = [...recipes];
 let inputValue = '';
+let tags = '';
 
 //On boucle pour parcourir toutes les recettes du tableau
 function displayRecipes(recipes) {
@@ -247,9 +246,7 @@ function displayIngredientDropdown(ingredientsListDropdown) {
       filterIngredientResult(filterMainResult);
       closeLingredientList();
       closeTag();
-      console.log(filterMainResult);
     });
-    // console.log(filterMainResult);
   });
 }
 displayIngredientDropdown(ingredientsListDropdown);
@@ -297,17 +294,23 @@ function displayUstensilsDropdown(utensilsListDropdown) {
   });
 }
 displayUstensilsDropdown(utensilsListDropdown);
-let tags = '';
 
+// Fonction de fermeture des tags ouverts et d'affichage des recettes et contenus des dopdowns en fonction des choix de l'utilisateur
 function closeTag() {
+  //On selectionne sur les boutons de fermeture
   let crosses = document.querySelectorAll('.btn_close');
+  //On boucle sur tous les boutons
   for (let cross = 0; cross < crosses.length; cross++) {
-    crosses[cross].addEventListener('click', function (e) {
+    //On écoute l'évenement clic sur les croix
+    crosses[cross].addEventListener('click', function () {
+      //on retire au clic le parent de la croix qui est le tag
       this.parentElement.remove();
       tags = document.querySelectorAll('.tags');
       filterMainResult = [...recipes];
+      //S'il n'y a pas de tag et que le champ de l'input principal est vide, on affiche la page comme lors de l'arrivée
       if (tags.length == 0 && mainSearch.value.length == 0) {
         displayReset(recipes);
+        //S'il n'y a pas de tag mais que l'input à des lettres, on affiche en fonction du filtre de l'input principal
       } else if (tags.length == 0 && mainSearch.value.length >= 1) {
         filterMainResult = recipes.filter(
           (result) =>
@@ -326,12 +329,14 @@ function closeTag() {
         recettes.innerHTML = '';
         displayRecipes(filterMainResult);
       } else {
+        //Sinon on flitre en fonction des tags sélectionnés
         filterByTag(filterMainResult);
       }
     });
   }
 }
 
+//Fonction qui filtre par les tags sélectionnés
 function filterByTag(recipes) {
   recettes.innerHTML = '';
   tags.forEach((tag) => {
@@ -349,20 +354,16 @@ function filterByTag(recipes) {
     );
     resultFilter(filterMainResult);
   });
-
-  console.log(filterMainResult);
 }
 
 //Filtre principal
 
 mainSearch.addEventListener('input', (e) => {
   inputValue = e.target.value;
-  console.log(mainSearch.value.length);
   filterMainResult = [...recipes];
   if (inputValue.length >= 3) {
     filterMainInputResult(filterMainResult);
-    console.log(filterMainResult);
-    console.log(mainSearch.value.length);
+
     //Si l'input principal est vide alors on reconstruit la page à l'initial
   } else {
     displayReset();
@@ -487,7 +488,7 @@ filterIngredientsSearch.addEventListener('input', (e) => {
         .includes(inputValue.toLowerCase())
     )
   );
-  console.log(filterMainResult);
+
   //on s'assure que le tableau à remplir est bien vide
   resultFilterIngredient = [];
   //pour chaque résultat du filtre on enlève les doublons et on regroupe en un seul tableau les ingrédients
@@ -514,7 +515,7 @@ filterApplianceSearch.addEventListener('input', (e) => {
   filterByApplianceInput = filterMainResult.filter((result) =>
     result.appliance.toLowerCase().includes(inputValue.toLowerCase())
   );
-  console.log(filterByApplianceInput);
+
   resultFilterAppliance = [];
   filterByApplianceInput.forEach((resultFilterAppliances) => {
     resultFilterAppliance = [
@@ -551,11 +552,3 @@ filterUtensilSearch.addEventListener('input', (e) => {
   dropdownUtensil.innerHTML = '';
   displayUstensilsDropdown(filterUstensilWord);
 });
-
-/*Idée vider inputs :
-if (filterIngredientsSearch.value.length || filterApplianceSearch.value.length
-  || filterUtensilSearch.value.length > 0) {
-    filterIngredientsSearch.value = '';
-    filterApplianceSearch.value = '';
-  filterUtensilSearch.value = '';
-}*/
