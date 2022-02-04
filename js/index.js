@@ -137,6 +137,7 @@ function openLingredientList() {
   filterIngredientsSearch.classList.remove('hidden');
   filterIngredient.style.width = '50%';
   filterIngredientsList.classList.remove('hidden');
+  
 }
 
 function openApplicanceList() {
@@ -242,6 +243,7 @@ function displayIngredientDropdown(ingredientsListDropdown) {
               <i class="fas fa-times-circle"></i>
             </button>
           </div>`;
+
 
       filterIngredientResult(filterMainResult);
       closeLingredientList();
