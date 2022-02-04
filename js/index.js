@@ -137,7 +137,6 @@ function openLingredientList() {
   filterIngredientsSearch.classList.remove('hidden');
   filterIngredient.style.width = '50%';
   filterIngredientsList.classList.remove('hidden');
-  
 }
 
 function openApplicanceList() {
@@ -244,7 +243,6 @@ function displayIngredientDropdown(ingredientsListDropdown) {
             </button>
           </div>`;
 
-
       filterIngredientResult(filterMainResult);
       closeLingredientList();
       closeTag();
@@ -314,8 +312,9 @@ function closeTag() {
         displayReset(recipes);
         //S'il n'y a pas de tag mais que l'input à des lettres, on affiche en fonction du filtre de l'input principal
       } else if (tags.length == 0 && mainSearch.value.length >= 1) {
-        filterMainResult = recipes.filter(
-          (result) =>
+        filterMainResult = [];
+        for (let result of recipes) {
+          if (
             result.name
               .toLowerCase()
               .includes(mainSearch.value.toLowerCase()) ||
@@ -327,7 +326,10 @@ function closeTag() {
             result.description
               .toLowerCase()
               .includes(mainSearch.value.toLowerCase())
-        );
+          ) {
+            filterMainResult.push(result);
+          }
+        }
         recettes.innerHTML = '';
         displayRecipes(filterMainResult);
       } else {
@@ -372,10 +374,11 @@ mainSearch.addEventListener('input', (e) => {
   }
 });
 
-//fonction de l'input principal qui filtre le tableau selon le titre,les ingrédients ou la description en fonction des lettres tapées
+//fonction de l'input principal qui boucle et filtre le tableau selon le titre,les ingrédients ou la description en fonction des lettres tapées
 function filterMainInputResult(recipes) {
-  filterMainResult = recipes.filter(
-    (result) =>
+  filterMainResult = [];
+  for (let result of recipes) {
+    if (
       result.name.toLowerCase().includes(inputValue.toLowerCase()) ||
       result.ingredients.find((ingredientArray) =>
         ingredientArray.ingredient
@@ -383,9 +386,13 @@ function filterMainInputResult(recipes) {
           .includes(inputValue.toLowerCase())
       ) ||
       result.description.toLowerCase().includes(inputValue.toLowerCase())
-  );
+    ) {
+      filterMainResult.push(result);
+    }
+  }
   resultFilter(filterMainResult);
 }
+
 function resultFilter(filterMainResult) {
   recettes.innerHTML = '';
   displayRecipes(filterMainResult);
